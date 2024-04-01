@@ -33,3 +33,9 @@ http://localhost:8080/v3/api-docs/
 
 You can view the api documentation in swagger-ui by pointing to
 http://localhost:8080/swagger-ui.html
+
+
+## License
+This software is licensed under AGPL and license text can be found at: https://github.com/starwit/starwit-aic-transparency-api/blob/main/LICENSE
+
+More info about Starwit can be found here: https://starwit-technologies.de/
