@@ -1,0 +1,104 @@
+openapi: 3.0.2
+info:
+  description: "This API is part of project AI cockpit. \n\nFor more details see:\
+    \ TODO\n"
+  title: AI Cockpit Transparency
+  version: 0.0.1
+servers:
+- url: http://localhost:8080/v0
+paths:
+  /info:
+    get:
+      description: "shall deliver info on interface version and hosting system, readonly"
+      operationId: getInfo
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Info'
+                type: array
+          description: base info
+      x-accepts: application/json
+  /biastests:
+    get:
+      description: get all biastests for this system
+      operationId: getAllBiasTests
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/BiasTest'
+                type: array
+          description: list all biastests in this system
+      x-accepts: application/json
+    post:
+      description: create a bias test
+      operationId: createBiasTest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BiasTest'
+        description: Bias test to be created
+        required: true
+      responses:
+        "200":
+          description: create new bias test
+      x-content-type: application/json
+      x-accepts: application/json
+  /biastests/{id}:
+    put:
+      description: update a bias test
+      operationId: updateBiasTest
+      parameters:
+      - description: Numeric ID of bias test to be updated
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BiasTest'
+        description: Bias test to be updated
+        required: true
+      responses:
+        "200":
+          description: update a bias test
+      x-content-type: application/json
+      x-accepts: application/json
+components:
+  schemas:
+    Info:
+      example:
+        apiVersion: apiVersion
+        generation-date: 2000-01-23T04:56:07.000+00:00
+        systemDescription: systemDescription
+      properties:
+        generation-date:
+          format: date-time
+          type: string
+        systemDescription:
+          type: string
+        apiVersion:
+          type: string
+      type: object
+    BiasTest:
+      example:
+        name: name
+        id: 0
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+      type: object
