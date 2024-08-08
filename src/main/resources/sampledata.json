@@ -1,0 +1,32 @@
+[
+    {
+      "id": 1,
+      "name": "AnDe",
+      "description": "A fantastic AI module",
+      "useAI": true,
+      "aiType": "Misc",
+      "modelVersion": "1.0.0"
+    },
+    {
+      "id": 2,
+      "name": "RuDi",
+      "description": "A super fantastic AI module",
+      "useAI": true,
+      "aiType": "Misc",
+      "modelVersion": "1.0.0"
+    },
+    {
+      "id": 3,
+      "name": "Sandy",
+      "description": "Another super fantastic AI module",
+      "useAI": true,
+      "aiType": "LLM",
+      "modelVersion": "1.0.0"
+    },
+    {
+      "id": 4,
+      "name": "Dieter",
+      "description": "A boring non AI module",
+      "useAI": false
+    }
+  ]
