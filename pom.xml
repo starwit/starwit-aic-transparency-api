@@ -1,11 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.starwit</groupId>
     <artifactId>starwit-aicapi-transparency</artifactId>
     <packaging>jar</packaging>
     <name>Starwit AIC Transparency API</name>
     <version>0.0.1</version>
-    <description>Starwit's implementation of AI Cockpit's transparency API</description>    
+    <description>Starwit's implementation of AI Cockpit's transparency API</description>
     <url>http://starwit.de</url>
 
     <licenses>
@@ -19,7 +21,7 @@
     <scm>
         <connection>scm:git:https://github.com/starwit/starwit-aic-transparency-api.git</connection>
         <tag>0.0.1</tag>
-    </scm>    
+    </scm>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -33,9 +35,15 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>21</java.version>
         <openapi-version>2.8.3</openapi-version>
+        <transparencyapi-version>0.0.2</transparencyapi-version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>de.starwit</groupId>
+            <artifactId>transparencyapi</artifactId>
+            <version>${transparencyapi-version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -82,7 +90,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-    </dependencies>    
+    </dependencies>
 
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
@@ -267,7 +275,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>           
+            </plugin>
         </plugins>
     </build>
 </project>
