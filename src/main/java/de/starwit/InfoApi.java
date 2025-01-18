@@ -5,7 +5,6 @@
  */
 package de.starwit;
 
-import de.starwit.aicockpit.Info;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -25,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
+import de.starwit.transparency.model.Info;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import java.util.List;

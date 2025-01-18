@@ -8,6 +8,8 @@ image:
 
 app:
   context_path: "/aic-transparency"
+  # This is necessary as service cannot figure out, which endpoint is actually used (proxies et al)
+  service_uri: http://localhost:8080
 
 auth:
   enabled: false

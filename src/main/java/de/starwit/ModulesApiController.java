@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import de.starwit.aicockpit.Module;
+import de.starwit.transparency.model.Module;
 import jakarta.annotation.Generated;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
@@ -29,6 +30,12 @@ public class ModulesApiController implements ModulesApi {
     private final NativeWebRequest request;
 
     private List<Module> modules = new ArrayList<>();
+
+    /**
+     * This is the URI under which this API will deliver sboms, if hosted here.
+     */
+    @Value("${app.service_uri}")
+    private String serviceUri;
 
     @Autowired
     public ModulesApiController(NativeWebRequest request) {
@@ -46,13 +53,24 @@ public class ModulesApiController implements ModulesApi {
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("sampledata.json");
         try {
             Module[] mods =  mapper.readValue(inputStream, Module[].class);
+            updateUris(mods);
             modules = Arrays.asList(mods);
         } catch (IOException e) {
-            System.out.println("Can't read data input");
             e.printStackTrace();
             System.exit(1);
         } 
     }
+
+    private void updateUris(Module[] mods) {
+        for (Module module : mods) {
+            for(String key: module.getsBOMLocation().keySet()) {
+                var uri = module.getsBOMLocation().get(key);
+                if(!uri.contains("http")) {
+                    module.getsBOMLocation().put(key, serviceUri + "/" + uri);
+                }
+            }
+        }
+    }    
 
     @Override
     public ResponseEntity<Void> createModule(@Valid Module module) {

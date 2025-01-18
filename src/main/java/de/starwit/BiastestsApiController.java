@@ -12,8 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.NativeWebRequest;
 
-import de.starwit.aicockpit.BiasTest;
 import de.starwit.services.BiastestsService;
+import de.starwit.transparency.model.BiasTest;
 import jakarta.validation.Valid;
 
 @Controller

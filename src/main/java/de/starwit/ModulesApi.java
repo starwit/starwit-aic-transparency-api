@@ -5,7 +5,7 @@
  */
 package de.starwit;
 
-import de.starwit.aicockpit.Module;
+import de.starwit.transparency.model.Module;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
