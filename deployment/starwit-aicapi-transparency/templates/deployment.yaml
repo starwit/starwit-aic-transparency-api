@@ -37,7 +37,7 @@ spec:
               value: {{ .Values.service.port | quote }}
             - name: SERVER_SERVLET_CONTEXT_PATH
               value: {{ .Values.app.context_path | quote }}
-            - name: SERVICE_URI
+            - name: APP_SERVICE_URI
               value: {{ .Values.app.service_uri }}              
             {{- if .Values.auth.enabled }}
             - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER-URI
