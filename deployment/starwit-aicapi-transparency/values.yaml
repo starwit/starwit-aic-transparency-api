@@ -38,3 +38,6 @@ resources:
   limits:
     memory: "500Mi"
 
+autoscaling:
+  enabled: false
+
