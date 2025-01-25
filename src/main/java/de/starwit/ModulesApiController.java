@@ -17,7 +17,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import de.starwit.transparency.model.Module;
+import eu.kicockpit.model.Module;
 import jakarta.annotation.Generated;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
@@ -38,6 +38,9 @@ public class ModulesApiController implements ModulesApi {
     private String serviceUri;
 
     @Autowired
+    ObjectMapper mapper;
+
+    @Autowired
     public ModulesApiController(NativeWebRequest request) {
         this.request = request;
     }
@@ -49,7 +52,6 @@ public class ModulesApiController implements ModulesApi {
 
     @PostConstruct
     private void init() {
-        ObjectMapper mapper = new ObjectMapper();
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("sampledata.json");
         try {
             Module[] mods =  mapper.readValue(inputStream, Module[].class);
@@ -71,11 +73,6 @@ public class ModulesApiController implements ModulesApi {
             }
         }
     }    
-
-    @Override
-    public ResponseEntity<Void> createModule(@Valid Module module) {
-        return ModulesApi.super.createModule(module);
-    }
 
     @Override
     public ResponseEntity<List<Module>> getModule(Integer id) {
