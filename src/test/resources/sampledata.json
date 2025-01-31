@@ -1,27 +1,25 @@
 [
-    {
-      "id": 0,
-      "name": "Anomaly Detection",
-      "description": "Detects traffic anomalies",
-      "useAI": true,
-      "model": {
-        "name": "Kernel density estimate",
-        "version": "1.0.0",
-        "lastDeployment": "2021-12-10T10:58:05.309594500+01:00",
-        "modelType": "MISC",
-        "modelLink": "https://example.com/",
-        "publicTrainingData": false,
-        "linkToPublicTrainingData": ""
-      },
-      "actionTypes": [
-      ],
-      "decisionTypes": [
-      ],
-      "sBOMLocation": {
-        "backend": "sbom-samples/aic-sbom-backend.json"
-      },
-      "successors": [
-        
-      ]
-    }
+  {
+    "id": 0,
+    "name": "Anomaly Detection",
+    "description": "Detects traffic anomalies",
+    "useAI": true,
+    "model": {
+      "name": "Kernel density estimate",
+      "version": "1.0.0",
+      "lastDeployment": "2021-12-10T10:58:05.309594500+01:00",
+      "modelType": "MISC",
+      "modelLink": "https://example.com/",
+      "publicTrainingData": false,
+      "linkToPublicTrainingData": ""
+    },
+    "actionTypes": [],
+    "decisionTypes": [],
+    "sBOMLocation": {
+      "backend": {
+        "url": "sbom-samples/aic-sbom-backend.json"
+      }
+    },
+    "successors": []
+  }
 ]

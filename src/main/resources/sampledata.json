@@ -16,7 +16,9 @@
     "actionTypes": [],
     "decisionTypes": [],
     "sBOMLocation": {
-      "backend": "sbom-samples/aic-sbom-backend.json"
+      "backend": {
+        "url": "sbom-samples/aic-sbom-backend.json"
+      }
     },
     "successors": [
       {
@@ -33,7 +35,9 @@
     "actionTypes": [],
     "decisionTypes": [],
     "sBOMLocation": {
-      "backend": "sbom-samples/aic-sbom-backend.json"
+      "backend": {
+        "url": "sbom-samples/aic-sbom-backend.json"
+      }
     },
     "successors": [
       {
@@ -51,8 +55,12 @@
     "actionTypes": [],
     "decisionTypes": [],
     "sBOMLocation": {
-      "backend": "sbom-samples/aic-sbom-backend.json",
-      "frontend": "sbom-samples/aic-sbom-frontend.json"
+      "backend": {
+        "url": "sbom-samples/aic-sbom-backend.json"
+      },
+      "frontend": {
+        "url": "sbom-samples/aic-sbom-frontend.json"
+      }
     },
     "successors": [
       {
@@ -60,7 +68,7 @@
       },
       {
         "id": 8
-      }      
+      }
     ]
   },
   {
@@ -72,7 +80,9 @@
     "actionTypes": [],
     "decisionTypes": [],
     "sBOMLocation": {
-      "backend": "sbom-samples/aic-sbom-backend.json"
+      "backend": {
+        "url": "sbom-samples/aic-sbom-backend.json"
+      }
     },
     "successors": [
       {
@@ -89,15 +99,17 @@
       "name": "Yolov8",
       "version": "8.0.0",
       "lastDeployment": "2025-01-25T12:36:50.277768993+01:00",
-      "modelType": "COMPUTER_VISION",
+      "modelType": "COMPUTERVISION",
       "modelLink": "https://example.com/",
       "publicTrainingData": true,
       "linkToPublicTrainingData": "http://starwit.de"
-    },    
+    },
     "actionTypes": [],
-    "decisionTypes": [],    
+    "decisionTypes": [],
     "sBOMLocation": {
-      "backend": "sbom-samples/aic-sbom-backend.json"
+      "backend": {
+        "url": "sbom-samples/aic-sbom-backend.json"
+      }
     },
     "successors": [
       {
@@ -105,7 +117,7 @@
       },
       {
         "id": 5
-      }      
+      }
     ]
   },
   {
@@ -117,21 +129,23 @@
       "name": "Bath Super Tracker",
       "version": "8.0.0",
       "lastDeployment": "2025-01-25T12:36:50.277768993+01:00",
-      "modelType": "COMPUTER_VISION",
+      "modelType": "COMPUTERVISION",
       "modelLink": "https://example.com/",
       "publicTrainingData": true,
       "linkToPublicTrainingData": "http://starwit.de"
-    },      
+    },
     "actionTypes": [],
     "decisionTypes": [],
     "sBOMLocation": {
-      "backend": "sbom-samples/aic-sbom-backend.json"
+      "backend": {
+        "url": "sbom-samples/aic-sbom-backend.json"
+      }
     },
     "successors": [
       {
         "id": 6
       }
-    ]    
+    ]
   },
   {
     "id": 6,
@@ -146,11 +160,13 @@
       "modelLink": "https://example.com/",
       "publicTrainingData": true,
       "linkToPublicTrainingData": "http://starwit.de"
-    },      
+    },
     "actionTypes": [],
     "decisionTypes": [],
     "sBOMLocation": {
-      "backend": "sbom-samples/aic-sbom-backend.json"
+      "backend": {
+        "url": "sbom-samples/aic-sbom-backend.json"
+      }
     },
     "successors": [
       {
@@ -167,15 +183,17 @@
       "name": "Starwit Rule Action Chooser",
       "version": "1.0.0",
       "lastDeployment": "2025-01-25T12:36:50.277768993+01:00",
-      "modelType": "RULE_BASED",
+      "modelType": "RULEBASED",
       "modelLink": "https://example.com/",
       "publicTrainingData": true,
       "linkToPublicTrainingData": "http://starwit.de"
-    },      
+    },
     "actionTypes": [],
     "decisionTypes": [],
     "sBOMLocation": {
-      "backend": "sbom-samples/aic-sbom-backend.json"
+      "backend": {
+        "url": "sbom-samples/aic-sbom-backend.json"
+      }
     },
     "successors": []
   },
@@ -192,11 +210,13 @@
       "modelLink": "https://example.com/",
       "publicTrainingData": true,
       "linkToPublicTrainingData": "http://starwit.de"
-    },    
+    },
     "actionTypes": [],
     "decisionTypes": [],
     "sBOMLocation": {
-      "backend": "http://localhost:8081/sbom/aic-sbom-backend.json"
+      "backend": {
+        "url": "http://localhost:8081/sbom/aic-sbom-backend.json"
+      }
     },
     "successors": [
       {

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.NativeWebRequest;
 
-import eu.kicockpit.model.Info;
+import de.starwit.aic.model.Info;
 import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-01T15:47:00.058415289+02:00[Europe/Berlin]")

@@ -17,7 +17,8 @@ import org.springframework.web.context.request.NativeWebRequest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import eu.kicockpit.model.Module;
+import de.starwit.aic.model.Module;
+import de.starwit.aic.model.ModuleSBOMLocationValue;
 import jakarta.annotation.Generated;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
@@ -66,9 +67,11 @@ public class ModulesApiController implements ModulesApi {
     private void updateUris(Module[] mods) {
         for (Module module : mods) {
             for(String key: module.getsBOMLocation().keySet()) {
-                var uri = module.getsBOMLocation().get(key);
+                ModuleSBOMLocationValue locValue = module.getsBOMLocation().get(key);
+                var uri = locValue.getUrl();
                 if(!uri.contains("http")) {
-                    module.getsBOMLocation().put(key, serviceUri + "/" + uri);
+                    locValue.setUrl("serviceUri + \"/\" + uri");
+                    module.getsBOMLocation().put(key, locValue);
                 }
             }
         }
@@ -77,7 +80,7 @@ public class ModulesApiController implements ModulesApi {
     @Override
     public ResponseEntity<List<Module>> getModule(Integer id) {
         ArrayList<Module> result = new ArrayList<>();
-        for (Module module : result) {
+        for (Module module : modules) {
             if((long)module.getId() == id) {
                 result.add(module);
             }
@@ -94,6 +97,4 @@ public class ModulesApiController implements ModulesApi {
     public ResponseEntity<Void> updateModule(Integer id, @Valid Module module) {
         return ModulesApi.super.updateModule(id, module);
     }
-
-
 }

@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import eu.kicockpit.model.Module;
+import de.starwit.aic.model.Module;
 
 @SpringBootTest
 class OpenApiGeneratorApplicationTests {
