@@ -70,7 +70,7 @@ public class ModulesApiController implements ModulesApi {
                 ModuleSBOMLocationValue locValue = module.getsBOMLocation().get(key);
                 var uri = locValue.getUrl();
                 if(!uri.contains("http")) {
-                    locValue.setUrl("serviceUri + \"/\" + uri");
+                    locValue.setUrl(serviceUri + "/" + uri);
                     module.getsBOMLocation().put(key, locValue);
                 }
             }
