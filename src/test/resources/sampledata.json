@@ -20,6 +20,7 @@
         "url": "sbom-samples/aic-sbom-backend.json"
       }
     },
-    "successors": []
+    "successors": [],
+    "submodules" :[]
   }
 ]

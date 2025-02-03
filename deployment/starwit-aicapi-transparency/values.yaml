@@ -17,6 +17,12 @@ auth:
   client_id: aicockpit
   client_secret: aicockpit 
 
+sampledata:
+  enabled: false
+  image: starwitorg/ai-cockpit-sampledata:latest
+  importFolder: traffic
+  language: en
+
 service:
   port: 8080
 
