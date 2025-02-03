@@ -26,6 +26,18 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+      {{- if .Values.sampledata.enabled }}
+      - name: install-demo-data
+        image: {{ .Values.sampledata.image }}
+        command: [ 'sh', '-c', 
+          'echo "copy scenario data to pod volume";
+          cp -v -r /scenariodata/data_structures /target;
+          ']
+        volumeMounts:
+          - name: scenariodata
+            mountPath: /target
+      {{- end }}         
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -38,7 +50,13 @@ spec:
             - name: SERVER_SERVLET_CONTEXT_PATH
               value: {{ .Values.app.context_path | quote }}
             - name: APP_SERVICE_URI
-              value: {{ .Values.app.service_uri }}              
+              value: {{ .Values.app.service_uri }}
+            {{- if .Values.sampledata.enabled }}
+            - name: SCENARIO_SETUP
+              value: "true"
+            - name: SCENARIO_IMPORTFOLDER
+              value: /scenariodata/data_structures/{{ .Values.sampledata.importFolder }}-{{ .Values.sampledata.language }}
+            {{- end }}                       
             {{- if .Values.auth.enabled }}
             - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER-URI
               value: {{ .Values.auth.keycloak_url }}
@@ -57,6 +75,11 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          {{- if .Values.sampledata.enabled }}              
+          volumeMounts:
+            - name: scenariodata
+              mountPath: /scenariodata
+          {{- end }}              
           livenessProbe:
             httpGet:
               path: {{ .Values.app.context_path }}
@@ -67,6 +90,11 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      {{- if .Values.sampledata.enabled }}
+      volumes:
+        - name: scenariodata
+          emptyDir: {}
+      {{- end }}            
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
