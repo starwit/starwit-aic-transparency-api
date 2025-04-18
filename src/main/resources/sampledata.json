@@ -52,7 +52,6 @@
     "name": "AI Cockpit",
     "description": "An AI act inspired cockpit to monitor AI application landscapes",
     "useAI": false,
-    "aiType": null,
     "model": {},
     "actionTypes": [],
     "decisionTypes": [],

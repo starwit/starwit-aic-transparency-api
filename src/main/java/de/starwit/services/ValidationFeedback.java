@@ -6,6 +6,7 @@ import java.util.List;
 
 public class ValidationFeedback {
     private boolean isValid = false;
+    private boolean nameTaken = true;
     private List<String> invalidUris = new LinkedList<>();
     private List<URL> unreachableUris = new LinkedList<>();
     private boolean hasIncompleteModelData = true;
@@ -42,19 +43,11 @@ public class ValidationFeedback {
         this.hasIncompleteModelData = hasIncompleteModelData;
     }
 
-    @Override
-    public String toString() {
-        StringBuffer feedback = new StringBuffer();
-        if(invalidUris.size() > 0) {
-            feedback.append("\"invalidUris\": {\n");
-            invalidUris.forEach((s) -> feedback.append("\"" + s + "\",\n"));
-            feedback.append("}\n");
-        }
-        if(unreachableUris.size() > 0) {
-            feedback.append("\"unreachableUris\": {\n");
-            unreachableUris.forEach((s) -> feedback.append("\"" + s.toString() + "\",\n"));
-            feedback.append("}\n");
-        }
-        return "{\n\"isValid\":" + isValid + ",\n\"hasIncompleteModelData\":" + hasIncompleteModelData + ",\n" + feedback.toString() + "}";
+    public boolean isNameTaken() {
+        return nameTaken;
+    }
+
+    public void setNameTaken(boolean nameTaken) {
+        this.nameTaken = nameTaken;
     }
 }

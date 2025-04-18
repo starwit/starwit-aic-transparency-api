@@ -1,7 +1,6 @@
 package org.openapitools;
 
 import java.io.InputStream;
-import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 

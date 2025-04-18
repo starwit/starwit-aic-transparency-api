@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import de.starwit.aic.model.Module;
+import de.starwit.services.ValidationFeedback;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -136,7 +137,7 @@ public interface ModulesApi {
         consumes = { "application/json" }
     )
     
-    default ResponseEntity<String> registerModule(
+    default ResponseEntity<ValidationFeedback> registerModule(
         @Parameter(name = "Module", description = "Module test to be registered", required = true) @Valid @RequestBody Module module
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

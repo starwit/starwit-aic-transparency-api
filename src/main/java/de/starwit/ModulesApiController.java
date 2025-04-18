@@ -18,8 +18,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.starwit.aic.model.Module;
 import de.starwit.services.ModuleDataService;
+import de.starwit.services.ModuleNotificationService;
+import de.starwit.services.ValidationFeedback;
 import jakarta.annotation.Generated;
-import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-08-08T11:21:46.515327837+02:00[Europe/Berlin]")
@@ -33,6 +34,9 @@ public class ModulesApiController implements ModulesApi {
 
     @Autowired
     ModuleDataService moduleDataService;
+
+    @Autowired
+    private ModuleNotificationService moduleNotificationService;
 
     /**
      * This is the URI under which this API will deliver sboms, if hosted here.
@@ -76,11 +80,13 @@ public class ModulesApiController implements ModulesApi {
     }
 
     @Override
-    public ResponseEntity<String> registerModule(@Valid Module module) {
+    public ResponseEntity<ValidationFeedback> registerModule(@Valid Module module) {
         log.info("Registering new module");
         if (moduleDataService.findModuleByName(module.getName()) != null) {
             log.info("Module with name {} already exists", module.getName());
-            return new ResponseEntity<String>("Module name already used", HttpStatus.CONFLICT);
+            ValidationFeedback validation = new ValidationFeedback();
+            validation.setNameTaken(true);
+            return new ResponseEntity<>(validation, HttpStatus.CONFLICT);
         } else {
             log.info("Registering module {}", module.getName());
             module.setId((long) moduleDataService.getModules().size() + 1);
@@ -88,9 +94,10 @@ public class ModulesApiController implements ModulesApi {
             if(validation.isValid())
             {
                 moduleDataService.getModules().add(module);
-                return new ResponseEntity<String>(HttpStatus.OK);            
+                moduleNotificationService.notifyExternalSystem(module);
+                return new ResponseEntity<>(validation,HttpStatus.OK);            
             }
-            return new ResponseEntity<String>(validation.toString(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(validation, HttpStatus.BAD_REQUEST);
         }
     }
 
