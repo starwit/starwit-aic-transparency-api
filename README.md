@@ -24,8 +24,10 @@ Once running you can access:
 
 ## Build & run locally
 
+```bash
     mvn package
-    java -jar target/java -jar target/starwit-aicapi-transparency-x.y.z.jar
+    java -jar target/starwit-aicapi-transparency-x.y.z.jar
+```
 
 The specification is available to download using the following url:
 http://localhost:8080/v0/api-docs/

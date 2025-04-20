@@ -82,7 +82,8 @@ public class ModulesApiController implements ModulesApi {
     @Override
     public ResponseEntity<ValidationFeedback> registerModule(@Valid Module module) {
         log.info("Registering new module");
-        if (moduleDataService.findModuleByName(module.getName()) != null) {
+        var moduleExist = moduleNotificationService.checkIfModuleExists(module.getName());
+        if (!moduleExist) {
             log.info("Module with name {} already exists", module.getName());
             ValidationFeedback validation = new ValidationFeedback();
             validation.setNameTaken(true);
@@ -94,7 +95,7 @@ public class ModulesApiController implements ModulesApi {
             if(validation.isValid())
             {
                 moduleDataService.getModules().add(module);
-                moduleNotificationService.notifyExternalSystem(module);
+                moduleNotificationService.synchModuleData(module);
                 return new ResponseEntity<>(validation,HttpStatus.OK);            
             }
             return new ResponseEntity<>(validation, HttpStatus.BAD_REQUEST);

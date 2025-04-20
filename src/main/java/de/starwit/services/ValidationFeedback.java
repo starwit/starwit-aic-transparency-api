@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ValidationFeedback {
     private boolean isValid = false;
-    private boolean nameTaken = true;
+    private boolean nameTaken = false;
     private List<String> invalidUris = new LinkedList<>();
     private List<URL> unreachableUris = new LinkedList<>();
     private boolean hasIncompleteModelData = true;
