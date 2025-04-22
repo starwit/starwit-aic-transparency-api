@@ -50,4 +50,10 @@ public class ValidationFeedback {
     public void setNameTaken(boolean nameTaken) {
         this.nameTaken = nameTaken;
     }
+
+    @Override
+    public String toString() {
+        return "ValidationFeedback [isValid=" + isValid + ", nameTaken=" + nameTaken + ", invalidUris=" + invalidUris
+                + ", unreachableUris=" + unreachableUris + ", hasIncompleteModelData=" + hasIncompleteModelData + "]";
+    }
 }

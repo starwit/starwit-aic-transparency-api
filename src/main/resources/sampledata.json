@@ -1,33 +1,5 @@
 [
   {
-    "name": "Anomaly Detection2",
-    "description": "Detects traffic anomalies",
-    "version": "0.0.1",
-    "applicationIdentifier": "traffic",    
-    "useAI": true,
-    "model": {
-      "name": "Kernel density estimate",
-      "version": "1.0.0",
-      "lastDeployment": "2025-01-25T12:36:50.277768993+01:00",
-      "modelType": "MISC",
-      "modelLink": "https://example.com/",
-      "publicTrainingData": false,
-      "linkToPublicTrainingData": "https://example.com/"
-    },
-    "actionTypes": [],
-    "decisionTypes": [],
-    "sBOMLocation": {
-      "backend": {
-        "url": "sbom-samples/aic-sbom-backend.json"
-      }
-    },
-    "successors": [
-      {
-        "name": "Starwit Anomaly Classifier"
-      }
-    ]
-  },
-  {
     "name": "Starwit Anomaly Classifier",
     "description": "Classifies Anomalies",
     "version": "0.0.1",
@@ -56,7 +28,15 @@
     "version": "0.0.1",
     "applicationIdentifier": "traffic",      
     "useAI": false,
-    "model": {},
+    "model": {
+      "name": "Starwit Classifier finetuned model",
+      "version": "1.0.0",
+      "lastDeployment": "2025-01-25T12:36:50.277768993+01:00",
+      "modelType": "LLM",
+      "modelLink": "https://example.com/",
+      "publicTrainingData": true,
+      "linkToPublicTrainingData": "http://starwit.de"
+    },
     "actionTypes": [],
     "decisionTypes": [],
     "sBOMLocation": {
@@ -64,6 +44,34 @@
         "url": "sbom-samples/aic-sbom-backend.json"
       }
     }
+  },
+  {
+    "name": "Anomaly Detection2",
+    "description": "Detects traffic anomalies",
+    "version": "0.0.1",
+    "applicationIdentifier": "traffic",    
+    "useAI": true,
+    "model": {
+      "name": "Kernel density estimate",
+      "version": "1.0.0",
+      "lastDeployment": "2025-01-25T12:36:50.277768993+01:00",
+      "modelType": "MISC",
+      "modelLink": "https://example.com/",
+      "publicTrainingData": false,
+      "linkToPublicTrainingData": "https://example.com/"
+    },
+    "actionTypes": [],
+    "decisionTypes": [],
+    "sBOMLocation": {
+      "backend": {
+        "url": "sbom-samples/aic-sbom-backend.json"
+      }
+    },
+    "successors": [
+      {
+        "name": "Starwit Anomaly Classifier"
+      }
+    ]
   },
   {
     "name": "Starwit Object Tracker",

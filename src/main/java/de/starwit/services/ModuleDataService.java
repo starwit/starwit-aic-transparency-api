@@ -30,6 +30,9 @@ import de.starwit.aic.model.Module;
 public class ModuleDataService {
     Logger log = LoggerFactory.getLogger(ModuleDataService.class);
 
+    @Autowired
+    ModuleSynchronizationService moduleNotificationService;
+
     /**
      * This is the URI under which this API will deliver sboms, if hosted here.
      */
@@ -44,16 +47,14 @@ public class ModuleDataService {
 
     private String sampleDataFileName = "moduledata.json";
 
-    private List<Module> modules = new ArrayList<>();
-
     @Autowired
-    ObjectMapper mapper;    
+    ObjectMapper mapper;
 
     @PostConstruct
     public void init() {
-        if(setupScenario) {
+        if (setupScenario) {
             log.info("Setting up scenario data from env vars");
-            if("internal".equals(scenarioImportFolder)) {
+            if ("internal".equals(scenarioImportFolder)) {
                 log.info("Load pre-packaged module data, check if this is intended!");
                 loadPrePackagedDemoData();
             } else {
@@ -68,21 +69,31 @@ public class ModuleDataService {
     private void loadPrePackagedDemoData() {
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("sampledata.json");
         try {
-            Module[] mods =  mapper.readValue(inputStream, Module[].class);
+            Module[] mods = mapper.readValue(inputStream, Module[].class);
             updateUris(mods);
-            modules = new ArrayList<>(Arrays.asList(mods));
+            for (Module module : mods) {
+                var validation = moduleNotificationService.validateModuleData(module);
+                log.info("Validation result : " + validation.toString());
+                if (moduleNotificationService.checkIfModuleExists(module.getName())) {
+                    log.info("Module with name {} already exists", module.getName());
+                    continue;
+                } else {
+                    log.info("Registering module {}", module.getName());
+                    moduleNotificationService.synchModuleData(module);
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
-        } 
+        }
     }
 
     private void updateUris(Module[] mods) {
         for (Module module : mods) {
-            for(String key: module.getsBOMLocation().keySet()) {
+            for (String key : module.getsBOMLocation().keySet()) {
                 ModuleSBOMLocationValue locValue = module.getsBOMLocation().get(key);
                 var uri = locValue.getUrl();
-                if(!uri.contains("http")) {
+                if (!uri.contains("http")) {
                     locValue.setUrl(serviceUri + "/" + uri);
                     module.getsBOMLocation().put(key, locValue);
                 }
@@ -92,27 +103,20 @@ public class ModuleDataService {
 
     private void loadScenarioData() {
         File file = new File(scenarioImportFolder + "/" + sampleDataFileName);
-        if(file.exists()){
+        if (file.exists()) {
             log.info("Loading scenario data from {}", file.getAbsolutePath());
-            try{
-                var mods = mapper.readValue(file, new TypeReference<List<Module>>(){});
-                modules = new ArrayList<>(mods);
+            try {
+                var mods = mapper.readValue(file, new TypeReference<List<Module>>() {
+                });
+                for (Module module : mods) {
+                    moduleNotificationService.synchModuleData(module);
+                }
             } catch (IOException e) {
                 log.error("Error reading scenario data" + e.getMessage());
             }
-            
+
         } else {
             log.error("Scenario data path does not exist " + file.getAbsolutePath());
         }
     }
-
-
-    public Module findModuleByName(String name) {
-        for (Module module : modules) {
-            if(name.equals(module.getName())) {
-                return module;
-            }
-        }
-        return null;
-    }    
 }

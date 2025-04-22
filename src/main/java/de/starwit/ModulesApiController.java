@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.starwit.aic.model.Module;
 import de.starwit.services.ModuleDataService;
-import de.starwit.services.ModuleNotificationService;
+import de.starwit.services.ModuleSynchronizationService;
 import de.starwit.services.ValidationFeedback;
 import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
@@ -36,7 +36,7 @@ public class ModulesApiController implements ModulesApi {
     ModuleDataService moduleDataService;
 
     @Autowired
-    private ModuleNotificationService moduleNotificationService;
+    private ModuleSynchronizationService moduleNotificationService;
 
     /**
      * This is the URI under which this API will deliver sboms, if hosted here.

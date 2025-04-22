@@ -25,9 +25,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import de.starwit.aic.model.Module;
 
 @Service
-public class ModuleNotificationService {
+public class ModuleSynchronizationService {
 
-    Logger log = LoggerFactory.getLogger(ModuleNotificationService.class);
+    Logger log = LoggerFactory.getLogger(ModuleSynchronizationService.class);
 
     @Value("${cockpit.hostname}")
     private String cockpitHostname;
@@ -40,7 +40,7 @@ public class ModuleNotificationService {
 
     private final RestTemplate restTemplate;
 
-    public ModuleNotificationService(RestTemplateBuilder builder) {
+    public ModuleSynchronizationService(RestTemplateBuilder builder) {
         this.restTemplate = builder.build();
     }
 
