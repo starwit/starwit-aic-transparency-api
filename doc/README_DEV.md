@@ -18,9 +18,9 @@
   },
   "actionTypes": [],
   "decisionTypes": [],
-  "getsBOMLocation": {
-    "additionalProp1": {
-      "backend": "http://localhost:8080/sbom-samples/aic-sbom-backend.json"
+  "sBOMLocation": {
+    "backend": {
+      "url": "http://localhost:8080/sbom-samples/aic-sbom-backend.json"
     }
   },
   "successors": []
@@ -43,9 +43,9 @@
   },
   "actionTypes": [],
   "decisionTypes": [],
-  "getsBOMLocation": {
-    "additionalProp1": {
-      "backend": "http://localhost:8080/sbom-samples/aic-sbom-backend.json"
+  "sBOMLocation": {
+    "backend": {
+      "url": "http://localhost:8080/sbom-samples/aic-sbom-backend.json"
     }
   },
   "successors": [{"name": "Super AnDe"}]
@@ -68,9 +68,9 @@
   },
   "actionTypes": [],
   "decisionTypes": [],
-  "getsBOMLocation": {
-    "additionalProp1": {
-      "backend": "http://localhost:8080/sbom-samples/aic-sbom-backend.json"
+  "sBOMLocation": {
+    "backend": {
+      "url": "http://localhost:8080/sbom-samples/aic-sbom-backend.json"
     }
   },
   "successors": []

@@ -48,6 +48,7 @@ public class ModuleNotificationService {
     public void synchModuleData(Module module) {
         try {
             log.info("Sending new module to Cockpit: " + cockpitHostname + transparencyAPI);
+            log.info(module.toString());
             ResponseEntity<String> resp = restTemplate.postForEntity(cockpitHostname + transparencyAPI, module,
                     String.class);
             log.info(resp.getBody());
