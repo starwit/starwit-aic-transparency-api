@@ -55,22 +55,11 @@ public class ModulesApiController implements ModulesApi {
     @Override
     public Optional<NativeWebRequest> getRequest() {
         return Optional.ofNullable(request);
-    }    
-
-    @Override
-    public ResponseEntity<List<Module>> getModule(Integer id) {
-        ArrayList<Module> result = new ArrayList<>();
-        for (Module module : moduleDataService.getModules()) {
-            if((long)module.getId() == id) {
-                result.add(module);
-            }
-        }
-        return new ResponseEntity<List<Module>>(result, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<Module>> getModules() {
-        return new ResponseEntity<List<Module>>(moduleDataService.getModules(), HttpStatus.OK);
+        return new ResponseEntity<List<Module>>(moduleNotificationService.getAllModules(), HttpStatus.OK);
     }
 
     @Override
@@ -83,18 +72,17 @@ public class ModulesApiController implements ModulesApi {
     public ResponseEntity<ValidationFeedback> registerModule(@Valid Module module) {
         log.info("Registering new module");
         var moduleExist = moduleNotificationService.checkIfModuleExists(module.getName());
-        if (!moduleExist) {
+        log.info(module.getModel().getLastDeployment().toString());
+        if (moduleExist) {
             log.info("Module with name {} already exists", module.getName());
             ValidationFeedback validation = new ValidationFeedback();
             validation.setNameTaken(true);
             return new ResponseEntity<>(validation, HttpStatus.CONFLICT);
         } else {
             log.info("Registering module {}", module.getName());
-            module.setId((long) moduleDataService.getModules().size() + 1);
-            var validation = moduleDataService.validateModuleData(module);
+            var validation = moduleNotificationService.validateModuleData(module);
             if(validation.isValid())
             {
-                moduleDataService.getModules().add(module);
                 moduleNotificationService.synchModuleData(module);
                 return new ResponseEntity<>(validation,HttpStatus.OK);            
             }
