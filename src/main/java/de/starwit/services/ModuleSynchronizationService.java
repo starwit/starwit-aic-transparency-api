@@ -33,7 +33,7 @@ public class ModuleSynchronizationService {
     @Value("${cockpit.moduleapi}")
     private String moduleAPI;
 
-    @Value("${cockpit.aicapi}")
+    @Value("${cockpit.aicapi:api/aic/modules}")
     private String aicAPI;
 
     private final RestTemplate restTemplate;
