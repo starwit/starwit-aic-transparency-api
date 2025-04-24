@@ -10,6 +10,10 @@ app:
   context_path: "/aic-transparency"
   # This is necessary as service cannot figure out, which endpoint is actually used (proxies et al)
   service_uri: http://localhost:8080
+  cockpit:
+    hostname: http://ai-cockpit.aic.svc.cluster.local:8080
+    moduleapi: "api/module"
+    aicapi: "api/aic/modules"
 
 auth:
   enabled: false

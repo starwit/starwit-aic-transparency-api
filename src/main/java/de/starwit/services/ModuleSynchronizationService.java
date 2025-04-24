@@ -6,8 +6,6 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,8 +33,8 @@ public class ModuleSynchronizationService {
     @Value("${cockpit.moduleapi}")
     private String moduleAPI;
 
-    @Value("${cockpit.transparencyapi}")
-    private String transparencyAPI;
+    @Value("${cockpit.aicapi:api/aic/modules}")
+    private String aicAPI;
 
     private final RestTemplate restTemplate;
 
@@ -47,9 +45,9 @@ public class ModuleSynchronizationService {
     @Async
     public void synchModuleData(Module module) {
         try {
-            log.info("Sending new module to Cockpit: " + cockpitHostname + transparencyAPI);
+            log.info("Sending new module to Cockpit: " + cockpitHostname + aicAPI);
             log.info(module.toString());
-            ResponseEntity<String> resp = restTemplate.postForEntity(cockpitHostname + transparencyAPI, module,
+            ResponseEntity<String> resp = restTemplate.postForEntity(cockpitHostname + aicAPI, module,
                     String.class);
             log.info(resp.getBody());
         } catch (Exception ex) {
@@ -60,8 +58,8 @@ public class ModuleSynchronizationService {
     public List<Module> getAllModules() {
         List<Module> modules = new LinkedList<>();
         try {
-            log.debug("Loading existing modules from cockpit: " + cockpitHostname + transparencyAPI);
-            ResponseEntity<Module[]> resp = restTemplate.getForEntity(cockpitHostname + transparencyAPI, Module[].class);
+            log.debug("Loading existing modules from cockpit: " + cockpitHostname + aicAPI);
+            ResponseEntity<Module[]> resp = restTemplate.getForEntity(cockpitHostname + aicAPI, Module[].class);
             modules = List.of(resp.getBody());
         } catch (Exception ex) {
             log.error("Failed to load existing modules from cockpit: " + ex.getMessage());

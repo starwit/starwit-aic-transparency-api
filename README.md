@@ -12,7 +12,7 @@ This implementation aims to be a micro service, that can be deployed into a syst
 
 ## Starwit's implementation
 
-TODO
+This component is part of Starwit's implementation for an AI Cockpit. For an overview of all components see [deployment repo](https://github.com/starwit/ai-cockpit-deployment).
 
 ## Run Docker image
 
@@ -36,6 +36,18 @@ http://localhost:8080/v0/api-docs/
 You can view the api documentation in swagger-ui by pointing to
 http://localhost:8080/swagger-ui.html
 
+### Config file
+
+```properties
+app.service_uri=http://localhost:8080 # sets URL for swagger UI
+
+cockpit.hostname=http://localhost:8081/ai-cockpit/ # URL for cockpit
+cockpit.moduleapi=api/module # context path module API
+cockpit.aicapi=api/aic/modules # context path AIC functions
+
+scenario.setup=true # if true sample data will be send to cockpit
+scenario.importFolder=internal # if internal prepackaged data will be imported else folder location
+```
 
 ## License
 This software is licensed under AGPL and license text can be found at: https://github.com/starwit/starwit-aic-transparency-api/blob/main/LICENSE
