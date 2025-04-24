@@ -3,7 +3,7 @@
     "name": "Starwit Anomaly Classifier",
     "description": "Classifies Anomalies",
     "version": "0.0.1",
-    "applicationIdentifier": "traffic",    
+    "applicationIdentifier": "traffic",
     "useAI": true,
     "model": {
       "name": "Starwit Classifier finetuned model",
@@ -21,12 +21,12 @@
         "url": "sbom-samples/aic-sbom-backend.json"
       }
     }
-  },  
+  },
   {
     "name": "Starwit GeoMerger",
     "description": "Combines multiple detections of the same object into one geo representation",
     "version": "0.0.1",
-    "applicationIdentifier": "traffic",      
+    "applicationIdentifier": "traffic",
     "useAI": false,
     "model": {
       "name": "Starwit Classifier finetuned model",
@@ -46,10 +46,10 @@
     }
   },
   {
-    "name": "Anomaly Detection2",
+    "name": "Anomaly Detection",
     "description": "Detects traffic anomalies",
     "version": "0.0.1",
-    "applicationIdentifier": "traffic",    
+    "applicationIdentifier": "traffic",
     "useAI": true,
     "model": {
       "name": "Kernel density estimate",
@@ -77,7 +77,7 @@
     "name": "Starwit Object Tracker",
     "description": "Tracks moving objects",
     "version": "0.0.1",
-    "applicationIdentifier": "traffic",      
+    "applicationIdentifier": "traffic",
     "useAI": true,
     "model": {
       "name": "Yolov8",
@@ -97,11 +97,42 @@
     },
     "successors": [
       {
-        "name": "Anomaly Detection2"
+        "name": "Anomaly Detection"
       },
       {
         "name": "Starwit GeoMerger"
       }
     ]
+  },
+  {
+    "name": "Fancy AI module",
+    "description": "Does fancy AI stuff",
+    "version": "0.0.1",
+    "applicationIdentifier": "traffic",
+    "useAI": true,
+    "model": {
+      "name": "Yolov8",
+      "version": "8.0.0",
+      "lastDeployment": "2025-01-25T12:36:50.277768993+01:00",
+      "modelType": "COMPUTERVISION",
+      "modelLink": "https://example.com/",
+      "publicTrainingData": true,
+      "linkToPublicTrainingData": "http://starwit.de"
+    },
+    "actionTypes": [],
+    "decisionTypes": [
+      {
+        "name": "An AI interpretation",
+        "description": "Perceive the world, as it is",
+        "actionType": [],
+        "module": {"name":"Fancy AI module"}
+      }
+    ],
+    "sBOMLocation": {
+      "backend": {
+        "url": "sbom-samples/aic-sbom-backend.json"
+      }
+    },
+    "successors": []
   }
 ]

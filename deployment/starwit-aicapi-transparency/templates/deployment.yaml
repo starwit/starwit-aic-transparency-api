@@ -51,6 +51,12 @@ spec:
               value: {{ .Values.app.context_path | quote }}
             - name: APP_SERVICE_URI
               value: {{ .Values.app.service_uri }}
+            - name: COCKPIT_HOSTNAME
+              value: {{ .Values.app.cockpit.hostname }}
+            - name: COCKPIT_MODULEAPI
+              value: {{ .Values.app.cockpit.moduleapi }}
+            - name: COCKPIT_AICAPI
+              value: {{ .Values.app.cockpit.aicapi }}
             {{- if .Values.sampledata.enabled }}
             - name: SCENARIO_SETUP
               value: "true"
