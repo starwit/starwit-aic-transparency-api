@@ -64,12 +64,14 @@ spec:
               value: /scenariodata/data_structures/{{ .Values.sampledata.importFolder }}-{{ .Values.sampledata.language }}
             {{- end }}                       
             {{- if .Values.auth.enabled }}
-            - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER-URI
-              value: {{ .Values.auth.keycloak_url }}
-            - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENT-ID
+            - name: COCKPIT_AUTH_URL
+              value: {{ .Values.auth.auth_url }}
+            - name: COCKPIT_AUTH_CLIENT_ID
               value: {{ .Values.auth.client_id }}
-            - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENT-SECRET
-              value: {{ .Values.auth.client_secret }}
+            - name: COCKPIT_AUTH_USERNAME
+              value: {{ .Values.auth.username }}
+            - name: COCKPIT_AUTH_PASSWORD
+              value: {{ .Values.auth.password }}
             {{- else }}
             - name: SPRING_PROFILES_ACTIVE
               value: default

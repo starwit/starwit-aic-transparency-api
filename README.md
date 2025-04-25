@@ -39,14 +39,27 @@ http://localhost:8080/swagger-ui.html
 ### Config file
 
 ```properties
-app.service_uri=http://localhost:8080 # sets URL for swagger UI
+# sets URL for swagger UI
+app.service_uri=http://localhost:8080
 
-cockpit.hostname=http://localhost:8081/ai-cockpit/ # URL for cockpit
-cockpit.moduleapi=api/module # context path module API
-cockpit.aicapi=api/aic/modules # context path AIC functions
+# URL for cockpit
+cockpit.hostname=http://localhost:8081/ai-cockpit/ 
+# context path module API
+cockpit.moduleapi=api/module
+# context path AIC functions
+cockpit.aicapi=api/aic/modules 
 
-scenario.setup=true # if true sample data will be send to cockpit
-scenario.importFolder=internal # if internal prepackaged data will be imported else folder location
+# if true sample data will be send to cockpit
+scenario.setup=true 
+# if internal prepackaged data will be imported else folder location
+scenario.importFolder=internal 
+
+# Authentication against IdP
+cockpit.auth.enabled=true
+cockpit.auth.client_id=aicockpit
+cockpit.auth.username=username 
+cockpit.auth.password=secret 
+cockpit.auth.url=https://hostname/auth/realms/default/protocol/openid-connect/token
 ```
 
 ## License
