@@ -38,7 +38,7 @@ public class ModuleSynchronizationService {
     @Value("${cockpit.moduleapi}")
     private String moduleAPI;
 
-    @Value("${cockpit.aicapi:api/aic/modules}")
+    @Value("${cockpit.aicapi}")
     private String aicAPI;
 
     @Value("${cockpit.auth.enabled:false}")

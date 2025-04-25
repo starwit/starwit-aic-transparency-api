@@ -25,7 +25,7 @@ public class AuthService {
 
     Logger log = LoggerFactory.getLogger(AuthService.class);
 
-    @Value("${cockpit.auth.client_id:aicockpit}")
+    @Value("${cockpit.auth.client_id}")
     private String clientId;
 
     @Value("${cockpit.auth.username}")
