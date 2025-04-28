@@ -31,7 +31,7 @@ public class ModuleDataService {
     Logger log = LoggerFactory.getLogger(ModuleDataService.class);
 
     @Autowired
-    ModuleSynchronizationService moduleNotificationService;
+    ModuleSynchronizationService moduleSynchService;
 
     /**
      * This is the URI under which this API will deliver sboms, if hosted here.
@@ -72,14 +72,14 @@ public class ModuleDataService {
             Module[] mods = mapper.readValue(inputStream, Module[].class);
             updateUris(mods);
             for (Module module : mods) {
-                var validation = moduleNotificationService.validateModuleData(module);
+                var validation = moduleSynchService.validateModuleData(module);
                 log.info("Validation result : " + validation.toString());
-                if (moduleNotificationService.checkIfModuleExists(module.getName())) {
-                    log.info("Module with name {} already exists", module.getName());
+                if (moduleSynchService.checkIfModuleExists(module.getName())) {
+                    log.info("Module with name {} already exists or cockpit is unreachable", module.getName());
                     continue;
                 } else {
                     log.info("Registering module {}", module.getName());
-                    moduleNotificationService.synchModuleData(module);
+                    moduleSynchService.synchModuleData(module);
                 }
             }
         } catch (IOException e) {
@@ -109,7 +109,7 @@ public class ModuleDataService {
                 var mods = mapper.readValue(file, new TypeReference<List<Module>>() {
                 });
                 for (Module module : mods) {
-                    moduleNotificationService.synchModuleData(module);
+                    moduleSynchService.synchModuleData(module);
                 }
             } catch (IOException e) {
                 log.error("Error reading scenario data" + e.getMessage());

@@ -17,9 +17,11 @@ app:
 
 auth:
   enabled: false
-  keycloak_url: https://hostname/realms/aicockpit
+  auth_url: https://hostname/realms/aicockpit/protocol/openid-connect/token
   client_id: aicockpit
-  client_secret: aicockpit 
+  username: apiuser
+  password: apiuser
+
 
 sampledata:
   enabled: false

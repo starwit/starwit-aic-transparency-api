@@ -11,8 +11,13 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -33,10 +38,16 @@ public class ModuleSynchronizationService {
     @Value("${cockpit.moduleapi}")
     private String moduleAPI;
 
-    @Value("${cockpit.aicapi:api/aic/modules}")
+    @Value("${cockpit.aicapi}")
     private String aicAPI;
 
+    @Value("${cockpit.auth.enabled:false}")
+    private boolean authEnabled;    
+
     private final RestTemplate restTemplate;
+
+    @Autowired
+    AuthService authService;
 
     public ModuleSynchronizationService(RestTemplateBuilder builder) {
         this.restTemplate = builder.build();
@@ -46,10 +57,20 @@ public class ModuleSynchronizationService {
     public void synchModuleData(Module module) {
         try {
             log.info("Sending new module to Cockpit: " + cockpitHostname + aicAPI);
-            log.info(module.toString());
-            ResponseEntity<String> resp = restTemplate.postForEntity(cockpitHostname + aicAPI, module,
-                    String.class);
-            log.info(resp.getBody());
+            log.debug(module.toString());
+            String response = "";
+            
+            if(authEnabled) {
+                HttpEntity<Module> httpEntity = prepareHTTPEntity(module);
+                ResponseEntity<String> resp = restTemplate.postForEntity(cockpitHostname + aicAPI, httpEntity,
+                        String.class);
+                response =  resp.getBody();
+            } else {
+                ResponseEntity<String> resp = restTemplate.postForEntity(cockpitHostname + aicAPI, module,
+                        String.class);
+                response =  resp.getBody();
+            }
+            log.info(response);
         } catch (Exception ex) {
             log.error("Failed to synch module to cockpit: " + ex.getMessage());
         }
@@ -59,7 +80,13 @@ public class ModuleSynchronizationService {
         List<Module> modules = new LinkedList<>();
         try {
             log.debug("Loading existing modules from cockpit: " + cockpitHostname + aicAPI);
-            ResponseEntity<Module[]> resp = restTemplate.getForEntity(cockpitHostname + aicAPI, Module[].class);
+            ResponseEntity<Module[]> resp;
+            if(authEnabled) {
+                HttpEntity<String> httpEntity = prepareHTTPEntity("");
+                resp = restTemplate.exchange(cockpitHostname + aicAPI, HttpMethod.GET, httpEntity, Module[].class);
+            } else {
+                resp = restTemplate.getForEntity(cockpitHostname + aicAPI, Module[].class);
+            }
             modules = List.of(resp.getBody());
         } catch (Exception ex) {
             log.error("Failed to load existing modules from cockpit: " + ex.getMessage());
@@ -75,22 +102,40 @@ public class ModuleSynchronizationService {
                 .buildAndExpand(name)
                 .toUri();
             log.debug(uri.toString());
-            ResponseEntity<Module> resp = restTemplate
-                    .getForEntity(uri, Module.class);
-            log.debug("Result of existence test " + resp.getStatusCode().toString());
+            ResponseEntity<Module> resp;
+            if(authEnabled) {
+                HttpEntity<String> httpEntity = prepareHTTPEntity("");
+                resp = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, Module.class);
+            } else {
+                resp = restTemplate.getForEntity(uri, Module.class);
+            }
+            
+            log.info("Result of existence test " + resp.getStatusCode().toString());
             if (resp.getStatusCode().is2xxSuccessful()) {
                 return true;
             } else {
                 return false;
             }
         } catch (HttpClientErrorException ex) {
-            log.debug("Module does not exist yet: " + ex.getStatusCode());
-            return false;
+            log.info("Existence test for module resulted in response code " + ex.getStatusCode());
+            if (ex.getStatusCode().equals(HttpURLConnection.HTTP_NOT_FOUND)) {
+                log.info("Module does not exist yet");
+                return false;
+            }
+            return true;
         }
         catch (Exception ex) {
             log.error("Failed to test if module exists: " + ex.getMessage());
             return true;
         }
+    }
+
+    private <T> HttpEntity<T> prepareHTTPEntity(T entity) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization","Bearer " + authService.getToken());
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<T> httpEntity = new HttpEntity<>(entity, headers);
+        return httpEntity;
     }
 
     public ValidationFeedback validateModuleData(Module module) {
