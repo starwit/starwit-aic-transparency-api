@@ -3,13 +3,8 @@ package de.starwit.services;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -71,17 +66,7 @@ public class ModuleDataService {
         try {
             Module[] mods = mapper.readValue(inputStream, Module[].class);
             updateUris(mods);
-            for (Module module : mods) {
-                var validation = moduleSynchService.validateModuleData(module);
-                log.info("Validation result : " + validation.toString());
-                if (moduleSynchService.checkIfModuleExists(module.getName())) {
-                    log.info("Module with name {} already exists or cockpit is unreachable", module.getName());
-                    continue;
-                } else {
-                    log.info("Registering module {}", module.getName());
-                    moduleSynchService.synchModuleData(module);
-                }
-            }
+            synchModuleData(Arrays.asList(mods));
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
@@ -108,15 +93,27 @@ public class ModuleDataService {
             try {
                 var mods = mapper.readValue(file, new TypeReference<List<Module>>() {
                 });
-                for (Module module : mods) {
-                    moduleSynchService.synchModuleData(module);
-                }
+                synchModuleData(mods);
             } catch (IOException e) {
                 log.error("Error reading scenario data" + e.getMessage());
             }
 
         } else {
             log.error("Scenario data path does not exist " + file.getAbsolutePath());
+        }
+    }
+
+    private void synchModuleData(List<Module> mods) {
+        for (Module module : mods) {
+            var validation = moduleSynchService.validateModuleData(module);
+            log.info("Validation result : " + validation.toString());
+            if (moduleSynchService.checkIfModuleExists(module.getName())) {
+                log.info("Module with name {} already exists or cockpit is unreachable", module.getName());
+                continue;
+            } else {
+                log.info("Registering module {}", module.getName());
+                moduleSynchService.synchModuleData(module);
+            }
         }
     }
 }
