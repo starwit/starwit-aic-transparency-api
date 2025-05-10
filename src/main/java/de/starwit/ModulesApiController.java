@@ -17,8 +17,10 @@ import org.springframework.web.context.request.NativeWebRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.starwit.aic.model.Module;
+import de.starwit.services.MinioService;
 import de.starwit.services.ModuleDataService;
 import de.starwit.services.ModuleSynchronizationService;
+import de.starwit.services.ReportGenerationService;
 import de.starwit.services.ValidationFeedback;
 import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
@@ -33,9 +35,6 @@ public class ModulesApiController implements ModulesApi {
     private final NativeWebRequest request;
 
     @Autowired
-    ModuleDataService moduleDataService;
-
-    @Autowired
     private ModuleSynchronizationService moduleNotificationService;
 
     /**
@@ -46,6 +45,9 @@ public class ModulesApiController implements ModulesApi {
 
     @Autowired
     ObjectMapper mapper;
+
+    @Autowired
+    ReportGenerationService reportService;
 
     @Autowired
     public ModulesApiController(NativeWebRequest request) {
@@ -72,7 +74,6 @@ public class ModulesApiController implements ModulesApi {
     public ResponseEntity<ValidationFeedback> registerModule(@Valid Module module) {
         log.info("Registering new module");
         var moduleExist = moduleNotificationService.checkIfModuleExists(module.getName());
-        log.info(module.getModel().getLastDeployment().toString());
         if (moduleExist) {
             log.info("Module with name {} already exists", module.getName());
             ValidationFeedback validation = new ValidationFeedback();
@@ -84,6 +85,7 @@ public class ModulesApiController implements ModulesApi {
             if(validation.isValid())
             {
                 moduleNotificationService.synchModuleData(module);
+                reportService.createReports(module);
                 return new ResponseEntity<>(validation,HttpStatus.OK);            
             }
             return new ResponseEntity<>(validation, HttpStatus.BAD_REQUEST);

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -21,6 +20,7 @@ import jakarta.annotation.PostConstruct;
 
 import de.starwit.aic.model.Module;
 
+/** Loads initial data for pre-defined scenarios */
 @Service
 public class ModuleDataService {
     Logger log = LoggerFactory.getLogger(ModuleDataService.class);

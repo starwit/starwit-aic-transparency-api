@@ -17,6 +17,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
@@ -118,7 +119,7 @@ public class ModuleSynchronizationService {
             }
         } catch (HttpClientErrorException ex) {
             log.info("Existence test for module resulted in response code " + ex.getStatusCode());
-            if (ex.getStatusCode().equals(HttpURLConnection.HTTP_NOT_FOUND)) {
+            if (ex.getStatusCode().value() == 404) {
                 log.info("Module does not exist yet");
                 return false;
             }
