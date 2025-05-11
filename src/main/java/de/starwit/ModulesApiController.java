@@ -17,8 +17,6 @@ import org.springframework.web.context.request.NativeWebRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.starwit.aic.model.Module;
-import de.starwit.services.MinioService;
-import de.starwit.services.ModuleDataService;
 import de.starwit.services.ModuleSynchronizationService;
 import de.starwit.services.ReportGenerationService;
 import de.starwit.services.ValidationFeedback;
@@ -37,6 +35,9 @@ public class ModulesApiController implements ModulesApi {
     @Autowired
     private ModuleSynchronizationService moduleNotificationService;
 
+    @Autowired
+    ReportGenerationService reportService;
+
     /**
      * This is the URI under which this API will deliver sboms, if hosted here.
      */
@@ -45,9 +46,6 @@ public class ModulesApiController implements ModulesApi {
 
     @Autowired
     ObjectMapper mapper;
-
-    @Autowired
-    ReportGenerationService reportService;
 
     @Autowired
     public ModulesApiController(NativeWebRequest request) {
@@ -86,7 +84,7 @@ public class ModulesApiController implements ModulesApi {
             {
                 moduleNotificationService.synchModuleData(module);
                 reportService.createReports(module);
-                return new ResponseEntity<>(validation,HttpStatus.OK);            
+                return new ResponseEntity<>(validation, HttpStatus.OK);            
             }
             return new ResponseEntity<>(validation, HttpStatus.BAD_REQUEST);
         }

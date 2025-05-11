@@ -80,7 +80,7 @@ public class MinioService {
     }
 
     public void uploadFile(byte[] reportContent, Module m, String sbomName) {
-        String filename = m.getName() + "_" + m.getVersion() + ".json";
+        String filename = m.getName() + "_" + sbomName + "_" + m.getVersion() + ".json";
         uploadFile(reportContent, filename);
     }
 
