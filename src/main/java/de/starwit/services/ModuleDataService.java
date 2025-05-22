@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -16,10 +15,9 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import de.starwit.aic.model.Module;
 import de.starwit.aic.model.ModuleSBOMLocationValue;
 import jakarta.annotation.PostConstruct;
-
-import de.starwit.aic.model.Module;
 
 @Service
 public class ModuleDataService {
