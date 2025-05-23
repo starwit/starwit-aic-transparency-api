@@ -1,6 +1,5 @@
 package de.starwit;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +46,6 @@ public class ModulesApiController implements ModulesApi {
     @Autowired
     ObjectMapper mapper;
 
-    @Autowired
     public ModulesApiController(NativeWebRequest request) {
         this.request = request;
     }
