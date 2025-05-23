@@ -24,9 +24,25 @@ Once running you can access:
 
 ## Build & run locally
 
+Application can be build and run like so:
 ```bash
-    mvn package
-    java -jar target/starwit-aicapi-transparency-x.y.z.jar
+mvn package
+java -jar target/starwit-aicapi-transparency-x.y.z.jar
+```
+
+This app needs other components to function properly:
+* Minio -> upload sbom, pdf & excel reports
+* sbom-generator -> create pdf/excel reports from sboms
+* ai-cockpit & database
+
+In folder [docker-compose](deployment/docker-compose/) a docker compose file starts all necessary components. This can be started this way:
+```bash
+docker compose -f start-services-noauth.yaml up
+```
+
+To start fresh, shutdown all services like so:
+```bash
+docker compose -f start-services-noauth.yaml down -v
 ```
 
 The specification is available to download using the following url:
