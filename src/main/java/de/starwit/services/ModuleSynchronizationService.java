@@ -101,7 +101,7 @@ public class ModuleSynchronizationService {
             var uri = UriComponentsBuilder.fromUriString(cockpitHostname + moduleAPI + "/byname/{name}")
                 .buildAndExpand(name)
                 .toUri();
-            log.debug(uri.toString());
+            log.debug("Check if module exists via uri " + uri.toString());
             ResponseEntity<Module> resp;
             if(authEnabled) {
                 HttpEntity<String> httpEntity = prepareHTTPEntity("");
@@ -118,7 +118,7 @@ public class ModuleSynchronizationService {
             }
         } catch (HttpClientErrorException ex) {
             log.info("Existence test for module resulted in response code " + ex.getStatusCode());
-            if (ex.getStatusCode().equals(HttpURLConnection.HTTP_NOT_FOUND)) {
+            if (ex.getStatusCode().value() == 404) {
                 log.info("Module does not exist yet");
                 return false;
             }

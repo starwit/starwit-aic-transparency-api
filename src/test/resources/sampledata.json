@@ -18,7 +18,7 @@
     "decisionTypes": [],
     "sBOMLocation": {
       "backend": {
-        "url": "sbom-samples/aic-sbom-backend.json"
+        "url": "http://localhost:1080/cyclonedx/aic-sbom-backend.json"
       }
     }
   }

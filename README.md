@@ -25,15 +25,30 @@ Once running you can access:
 
 ## Build & run locally
 
+Application can be build and run like so:
 ```bash
-    mvn package
-    java -jar target/starwit-aicapi-transparency-x.y.z.jar
+mvn package
+java -jar target/starwit-aicapi-transparency-x.y.z.jar
 ```
 
-The specification is available to download using the following url:
-http://localhost:8080/v0/api-docs/
+This app needs other components to function properly:
+* Minio -> upload sbom, pdf & excel reports
+* sbom-generator -> create pdf/excel reports from sboms
+* ai-cockpit & database
 
-You can view the api documentation in swagger-ui by pointing to
+In folder [docker-compose](deployment/docker-compose/) a docker compose file starts all necessary components. This can be started this way:
+```bash
+docker compose -f start-services-noauth.yaml up
+```
+
+To start fresh shutdown all services like so:
+```bash
+docker compose -f start-services-noauth.yaml down -v
+```
+
+For more details how to use Docker compose, [see readme](deployment/docker-compose/Readme.md).
+
+After successful start api documentation is available at:
 http://localhost:8080/swagger-ui.html
 
 ### Config file
@@ -64,7 +79,7 @@ cockpit.auth.url=https://hostname/auth/realms/default/protocol/openid-connect/to
 
 ## Contact & Contribution
 
-The “KI-Cockpit” (AI Cockpit) project was funded by the Federal Ministry of Labor and Social Affairs.
+The “KI-Cockpit” (AI Cockpit) project was funded by the Federal Ministry of Labor and Social Affairs. See [project repo](https://github.com/ki-cockpit) for more details..
 
 <img src="doc/foerderlogo.png" alt="BMAS Logo" style="width:33%; height:auto;">
 

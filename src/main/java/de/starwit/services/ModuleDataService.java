@@ -26,6 +26,9 @@ public class ModuleDataService {
     @Autowired
     ModuleSynchronizationService moduleSynchService;
 
+    @Autowired
+    ReportGenerationService reportService;
+
     /**
      * This is the URI under which this API will deliver sboms, if hosted here.
      */
@@ -111,6 +114,7 @@ public class ModuleDataService {
             } else {
                 log.info("Registering module {}", module.getName());
                 moduleSynchService.synchModuleData(module);
+                reportService.createReports(module);
             }
         }
     }
