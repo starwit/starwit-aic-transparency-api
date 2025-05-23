@@ -18,7 +18,7 @@
     "decisionTypes": [],
     "sBOMLocation": {
       "backend": {
-        "url": "http://localhost:1080/cyclonedx/aic-sbom-backend.json"
+        "url": "http://localhost:1080/aic-sbom-backend.json"
       }
     }
   },
@@ -41,7 +41,7 @@
     "decisionTypes": [],
     "sBOMLocation": {
       "backend": {
-        "url": "http://localhost:1080/cyclonedx/aic-sbom-frontend.json"
+        "url": "http://localhost:1080/aic-sbom-frontend.json"
       }
     }
   },
@@ -64,7 +64,7 @@
     "decisionTypes": [],
     "sBOMLocation": {
       "backend": {
-        "url": "http://localhost:1080/cyclonedx/aic-sbom-backend.json"
+        "url": "http://localhost:1080/aic-sbom-backend.json"
       }
     },
     "successors": [
@@ -92,7 +92,7 @@
     "decisionTypes": [],
     "sBOMLocation": {
       "backend": {
-        "url": "http://localhost:1080/cyclonedx/aic-sbom-frontend.json"
+        "url": "http://localhost:1080/aic-sbom-frontend.json"
       }
     },
     "successors": [
@@ -123,7 +123,7 @@
     "decisionTypes": [],
     "sBOMLocation": {
       "backend": {
-        "url": "http://localhost:1080/cyclonedx/aic-sbom-backend.json"
+        "url": "http://localhost:1080/aic-sbom-backend.json"
       }
     }
   },
@@ -146,7 +146,7 @@
     "decisionTypes": [],
     "sBOMLocation": {
       "backend": {
-        "url": "http://localhost:1080/cyclonedx/aic-sbom-backend.json"
+        "url": "http://localhost:1080/aic-sbom-backend.json"
       }
     }
   },
@@ -169,7 +169,7 @@
     "decisionTypes": [],
     "sBOMLocation": {
       "backend": {
-        "url": "http://localhost:1080/cyclonedx/aic-sbom-frontend.json"
+        "url": "http://localhost:1080/aic-sbom-frontend.json"
       }
     },
     "successors": [
@@ -200,7 +200,7 @@
     "decisionTypes": [],
     "sBOMLocation": {
       "backend": {
-        "url": "http://localhost:1080/cyclonedx/aic-sbom-backend.json"
+        "url": "http://localhost:1080/aic-sbom-backend.json"
       }
     }
   },
@@ -223,7 +223,7 @@
     "decisionTypes": [],
     "sBOMLocation": {
       "backend": {
-        "url": "http://localhost:1080/cyclonedx/aic-sbom-backend.json"
+        "url": "http://localhost:1080/aic-sbom-backend.json"
       }
     }
   },
@@ -246,7 +246,7 @@
     "decisionTypes": [],
     "sBOMLocation": {
       "backend": {
-        "url": "http://localhost:1080/cyclonedx/aic-sbom-backend.json"
+        "url": "http://localhost:1080/aic-sbom-backend.json"
       }
     }
   },
@@ -269,7 +269,7 @@
     "decisionTypes": [],
     "sBOMLocation": {
       "backend": {
-        "url": "http://localhost:1080/cyclonedx/aic-sbom-backend.json"
+        "url": "http://localhost:1080/aic-sbom-backend.json"
       }
     }
   },
@@ -292,7 +292,7 @@
     "decisionTypes": [],
     "sBOMLocation": {
       "backend": {
-        "url": "http://localhost:1080/cyclonedx/aic-sbom-backend.json"
+        "url": "http://localhost:1080/aic-sbom-backend.json"
       }
     }
   },
@@ -315,7 +315,7 @@
     "decisionTypes": [],
     "sBOMLocation": {
       "backend": {
-        "url": "http://localhost:1080/cyclonedx/aic-sbom-backend.json"
+        "url": "http://localhost:1080/aic-sbom-backend.json"
       }
     }
   },
@@ -338,7 +338,7 @@
     "decisionTypes": [],
     "sBOMLocation": {
       "backend": {
-        "url": "http://localhost:1080/cyclonedx/aic-sbom-backend.json"
+        "url": "http://localhost:1080/aic-sbom-backend.json"
       }
     }
   },
@@ -361,7 +361,7 @@
     "decisionTypes": [],
     "sBOMLocation": {
       "backend": {
-        "url": "http://localhost:1080/cyclonedx/aic-sbom-backend.json"
+        "url": "http://localhost:1080/aic-sbom-backend.json"
       }
     },
     "successors": [
@@ -392,7 +392,7 @@
     "decisionTypes": [],
     "sBOMLocation": {
       "backend": {
-        "url": "http://localhost:1080/cyclonedx/aic-sbom-backend.json"
+        "url": "http://localhost:1080/aic-sbom-backend.json"
       }
     }
   }

@@ -80,6 +80,14 @@ services:
     ports:
       - "8081:8081"
 
+  # simulates hosting of sboms
+  sbom-host:
+    image: httpd:latest
+    ports:
+    - '1080:80'
+    volumes:
+    - ./sbom-examples:/usr/local/apache2/htdocs
+
   sbom-generator:
     image: starwitorg/sbom-generator:0.0.10
     environment:

@@ -17,7 +17,6 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
@@ -102,7 +101,7 @@ public class ModuleSynchronizationService {
             var uri = UriComponentsBuilder.fromUriString(cockpitHostname + moduleAPI + "/byname/{name}")
                 .buildAndExpand(name)
                 .toUri();
-            log.debug(uri.toString());
+            log.debug("Check if module exists via uri " + uri.toString());
             ResponseEntity<Module> resp;
             if(authEnabled) {
                 HttpEntity<String> httpEntity = prepareHTTPEntity("");
