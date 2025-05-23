@@ -41,15 +41,14 @@ In folder [docker-compose](deployment/docker-compose/) a docker compose file sta
 docker compose -f start-services-noauth.yaml up
 ```
 
-To start fresh, shutdown all services like so:
+To start fresh shutdown all services like so:
 ```bash
 docker compose -f start-services-noauth.yaml down -v
 ```
 
-The specification is available to download using the following url:
-http://localhost:8080/v0/api-docs/
+For more details how to use Docker compose, [see readme](deployment/docker-compose/Readme.md).
 
-You can view the api documentation in swagger-ui by pointing to
+After successful start api documentation is available at:
 http://localhost:8080/swagger-ui.html
 
 ### Config file
@@ -80,7 +79,7 @@ cockpit.auth.url=https://hostname/auth/realms/default/protocol/openid-connect/to
 
 ## Contact & Contribution
 
-The “KI-Cockpit” (AI Cockpit) project was funded by the Federal Ministry of Labor and Social Affairs and executed by the nexus Institute, Aalen University, the University of Stuttgart, Chemistree, Caritas Dortmund & Starwit Technologies with the support of Awesome Technologies Innovationslabor, the Institute for Innovation and Technology (iit) at VDI/VDE Innovation + Technik and keytec.
+The “KI-Cockpit” (AI Cockpit) project was funded by the Federal Ministry of Labor and Social Affairs. See [project repo](https://github.com/ki-cockpit) for more details..
 
 <img src="doc/foerderlogo.png" alt="BMAS Logo" style="width:33%; height:auto;">
 
