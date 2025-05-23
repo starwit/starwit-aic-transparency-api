@@ -15,12 +15,10 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import de.starwit.aic.model.Module;
 import de.starwit.aic.model.ModuleSBOMLocationValue;
 import jakarta.annotation.PostConstruct;
 
-import de.starwit.aic.model.Module;
-
-/** Loads initial data for pre-defined scenarios */
 @Service
 public class ModuleDataService {
     Logger log = LoggerFactory.getLogger(ModuleDataService.class);
