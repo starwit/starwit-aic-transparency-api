@@ -46,7 +46,6 @@ public class ModulesApiController implements ModulesApi {
     @Autowired
     ObjectMapper mapper;
 
-    @Autowired
     public ModulesApiController(NativeWebRequest request) {
         this.request = request;
     }
