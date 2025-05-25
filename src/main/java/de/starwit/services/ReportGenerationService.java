@@ -35,11 +35,10 @@ public class ReportGenerationService {
         log.info("Try to generate reports");
         var sbomLocations = module.getsBOMLocation();
 
-        
         if (sbomLocations != null) {
             for (var sbomLocation : sbomLocations.keySet()) {
                 String sbomUrl = sbomLocations.get(sbomLocation).getUrl();
-                if(!sbomUrl.isEmpty()) {
+                if (!sbomUrl.isEmpty()) {
                     log.info("Creating reports for " + sbomLocation);
                     byte[] pdfReport = loadReport(sbomUrl, "pdf");
                     byte[] excelReport = loadReport(sbomUrl, "spreadsheet");
@@ -50,23 +49,23 @@ public class ReportGenerationService {
                 }
             }
         }
-        
+
     }
-    
+
     private String loadSbom(String sbomUri) {
         log.info("Loading sbom from remote URI " + sbomUri);
         try {
             ResponseEntity<String> response = restTemplate.getForEntity(sbomUri, String.class);
-    
+
             if (response.getStatusCode().is2xxSuccessful()) {
-              return response.getBody();
+                return response.getBody();
             } else {
-              return "";
+                return "";
             }
-          } catch (Exception e) {
+        } catch (Exception e) {
             log.error("Can't load sbom from remote URI " + e.getMessage());
             return "";
-          }
+        }
     }
 
     private byte[] loadReport(String sbomUri, String type) {
@@ -92,7 +91,7 @@ public class ReportGenerationService {
 
             }
         } catch (Exception e) {
-            log.error("Can't load report from remote URI " + e.getMessage());
+            log.info("Can't load report from remote URI. Are you using CyclonDX format?");
         }
 
         return result;

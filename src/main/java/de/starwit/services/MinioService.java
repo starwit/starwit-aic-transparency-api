@@ -85,23 +85,25 @@ public class MinioService {
     }
 
     public void uploadFile(byte[] fileContent, String type, Module m) {
-        String filename = m.getName() + "_" + m.getVersion() + ".";
-        if (type.equals("pdf")) {
-            filename += "pdf";
-        } else if (type.equals("spreadsheet")) {
-            filename += "xlsx";
-        }
+        if (fileContent != null) {
+            String filename = m.getName() + "_" + m.getVersion() + ".";
+            if (type.equals("pdf")) {
+                filename += "pdf";
+            } else if (type.equals("spreadsheet")) {
+                filename += "xlsx";
+            }
 
-        uploadFile(fileContent, filename);
+            uploadFile(fileContent, filename);
+        }
     }
 
     private void uploadFile(byte[] fileContent, String filename) {
         ByteArrayInputStream bais = new ByteArrayInputStream(fileContent);
         try {
             minioClient.putObject(
-                PutObjectArgs.builder().bucket(sbomBucket).object(filename).stream(
-                        bais, bais.available(), -1)
-                    .build());
+                    PutObjectArgs.builder().bucket(sbomBucket).object(filename).stream(
+                            bais, bais.available(), -1)
+                            .build());
             bais.close();
         } catch (InvalidKeyException | ErrorResponseException | InsufficientDataException | InternalException
                 | InvalidResponseException | NoSuchAlgorithmException | ServerException | XmlParserException
