@@ -1,5 +1,7 @@
 package de.starwit.services;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import de.starwit.aic.model.Module;
+import de.starwit.aic.model.ModuleSBOMLocationValue;
 
 /**
  * This service interacts with the report generation service, to get created
@@ -33,10 +36,10 @@ public class ReportGenerationService {
 
     public void createReports(Module module) {
         log.info("Try to generate reports");
-        var sbomLocations = module.getsBOMLocation();
+        Map<String, ModuleSBOMLocationValue> sbomLocations = module.getsBOMLocation();
 
         if (sbomLocations != null) {
-            for (var sbomLocation : sbomLocations.keySet()) {
+            for (String sbomLocation : sbomLocations.keySet()) {
                 String sbomUrl = sbomLocations.get(sbomLocation).getUrl();
                 if (!sbomUrl.isEmpty()) {
                     log.info("Creating reports for " + sbomLocation);
@@ -44,7 +47,7 @@ public class ReportGenerationService {
                     byte[] excelReport = loadReport(sbomUrl, "spreadsheet");
                     minioService.uploadFile(pdfReport, "pdf", module);
                     minioService.uploadFile(excelReport, "spreadsheet", module);
-                    var sbomContent = loadSbom(sbomUrl);
+                    String sbomContent = loadSbom(sbomUrl);
                     minioService.uploadFile(sbomContent.getBytes(), module, sbomLocation);
                 }
             }
