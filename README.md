@@ -2,7 +2,7 @@
 
 Complex software systems that uses AI mechanisms are difficult to understand. This API is part of an effort to add transparency and control to such systems. It is Starwit Technologies' implementation of the transparency interface. It shall provide statistical insights to an AI system's capabilities and give users an easy as possible way to understand, how this system work.
 
-API reference can be found here: https://gitlab.opencode.de/ki-cockpit/ai-cockpit-api/-/blob/main/api/transparency/ai-cockpit-transparency.yml?ref_type=heads
+API reference can be found here: <https://gitlab.opencode.de/ki-cockpit/ai-cockpit-api/-/blob/main/api/transparency/ai-cockpit-transparency.yml?ref_type=heads>
 
 More details can be found at <https://www.kicockpit.eu/>. All shared components necessary for this repo can be found [here](https://github.com/KI-Cockpit/ai-cockpit-api). There you also can find more info about all other activities & results of this project.
 
@@ -26,22 +26,26 @@ Once running you can access:
 ## Build & run locally
 
 Application can be build and run like so:
+
 ```bash
 mvn package
 java -jar target/starwit-aicapi-transparency-x.y.z.jar
 ```
 
 This app needs other components to function properly:
+
 * Minio -> upload sbom, pdf & excel reports
 * sbom-generator -> create pdf/excel reports from sboms
 * ai-cockpit & database
 
 In folder [docker-compose](deployment/docker-compose/) a docker compose file starts all necessary components. This can be started this way:
+
 ```bash
 docker compose -f start-services-noauth.yaml up
 ```
 
 To start fresh shutdown all services like so:
+
 ```bash
 docker compose -f start-services-noauth.yaml down -v
 ```
@@ -49,7 +53,7 @@ docker compose -f start-services-noauth.yaml down -v
 For more details how to use Docker compose, [see readme](deployment/docker-compose/Readme.md).
 
 After successful start api documentation is available at:
-http://localhost:8080/swagger-ui.html
+<http://localhost:8080/swagger-ui.html>
 
 ### Config file
 
@@ -85,6 +89,13 @@ The “KI-Cockpit” (AI Cockpit) project was funded by the Federal Ministry of 
 
 ## License
 
-This software is licensed under AGPL and license text can be found at: https://github.com/starwit/starwit-aic-transparency-api/blob/main/LICENSE
+This software is licensed under AGPL and license text can be found at: <https://github.com/starwit/starwit-aic-transparency-api/blob/main/LICENSE>
 
-More info about Starwit can be found here: https://starwit-technologies.de/
+More info about Starwit can be found here: <https://starwit-technologies.de/>
+
+## Research Links
+
+* [Implementing AI Bill of Materials (AI BOM) with SPDX 3.0](https://arxiv.org/pdf/2504.16743)
+* [Hugging Face AI sBOM Generator](https://huggingface.co/spaces/aetheris-ai/aibom-generator)
+* [SPDX Meetings](https://github.com/spdx/meetings?tab=readme-ov-file#tech-team-meetings)
+* [SPDX Incident Reporting](https://www.oecd.org/en/publications/towards-a-common-reporting-framework-for-ai-incidents_f326d4ac-en.html)
