@@ -1,4 +1,4 @@
-package de.starwit;
+package de.starwit.controller;
 
 import org.springframework.web.context.request.NativeWebRequest;
 

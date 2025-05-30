@@ -1,4 +1,4 @@
-package de.starwit.services;
+package de.starwit.service;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,11 +20,11 @@ import de.starwit.aic.model.ModuleSBOMLocationValue;
 import jakarta.annotation.PostConstruct;
 
 @Service
-public class ModuleDataService {
-    Logger log = LoggerFactory.getLogger(ModuleDataService.class);
+public class InitializationService {
+    Logger log = LoggerFactory.getLogger(InitializationService.class);
 
     @Autowired
-    ModuleSynchronizationService moduleSynchService;
+    CockpitService cockpitService;
 
     @Autowired
     ReportGenerationService reportService;
@@ -67,9 +67,9 @@ public class ModuleDataService {
         try {
             Module[] mods = mapper.readValue(inputStream, Module[].class);
             updateUris(mods);
-            synchModuleData(Arrays.asList(mods));
+            sendModuleDataToCockpit(Arrays.asList(mods));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             System.exit(1);
         }
     }
@@ -94,7 +94,7 @@ public class ModuleDataService {
             try {
                 var mods = mapper.readValue(file, new TypeReference<List<Module>>() {
                 });
-                synchModuleData(mods);
+                sendModuleDataToCockpit(mods);
             } catch (IOException e) {
                 log.error("Error reading scenario data" + e.getMessage());
             }
@@ -104,16 +104,16 @@ public class ModuleDataService {
         }
     }
 
-    private void synchModuleData(List<Module> mods) {
+    private void sendModuleDataToCockpit(List<Module> mods) {
         for (Module module : mods) {
-            var validation = moduleSynchService.validateModuleData(module);
+            var validation = cockpitService.validateModuleData(module);
             log.info("Validation result : " + validation.toString());
-            if (moduleSynchService.checkIfModuleExists(module.getName())) {
+            if (cockpitService.checkIfModuleExists(module.getName())) {
                 log.info("Module with name {} already exists or cockpit is unreachable", module.getName());
                 continue;
             } else {
                 log.info("Registering module {}", module.getName());
-                moduleSynchService.synchModuleData(module);
+                cockpitService.sendModuleDataToCockpit(module);
                 reportService.createReports(module);
             }
         }

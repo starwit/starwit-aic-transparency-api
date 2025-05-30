@@ -1,10 +1,10 @@
-package de.starwit.services;
+package de.starwit.dto;
 
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ValidationFeedback {
+public class ValidationDto {
     private boolean isValid = false;
     private boolean nameTaken = false;
     private List<String> invalidUris = new LinkedList<>();
