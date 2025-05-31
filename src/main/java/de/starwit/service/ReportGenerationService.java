@@ -1,4 +1,4 @@
-package de.starwit.services;
+package de.starwit.service;
 
 import java.util.Map;
 

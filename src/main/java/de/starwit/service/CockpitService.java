@@ -1,4 +1,4 @@
-package de.starwit.services;
+package de.starwit.service;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -26,11 +26,12 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import de.starwit.aic.model.Module;
+import de.starwit.dto.ValidationDto;
 
 @Service
-public class ModuleSynchronizationService {
+public class CockpitService {
 
-    Logger log = LoggerFactory.getLogger(ModuleSynchronizationService.class);
+    Logger log = LoggerFactory.getLogger(CockpitService.class);
 
     @Value("${cockpit.hostname}")
     private String cockpitHostname;
@@ -42,33 +43,33 @@ public class ModuleSynchronizationService {
     private String aicAPI;
 
     @Value("${cockpit.auth.enabled:false}")
-    private boolean authEnabled;    
+    private boolean authEnabled;
 
     private final RestTemplate restTemplate;
 
     @Autowired
     AuthService authService;
 
-    public ModuleSynchronizationService(RestTemplateBuilder builder) {
+    public CockpitService(RestTemplateBuilder builder) {
         this.restTemplate = builder.build();
     }
 
     @Async
-    public void synchModuleData(Module module) {
+    public void sendModuleDataToCockpit(Module module) {
         try {
             log.info("Sending new module to Cockpit: " + cockpitHostname + aicAPI);
             log.debug(module.toString());
             String response = "";
-            
-            if(authEnabled) {
+
+            if (authEnabled) {
                 HttpEntity<Module> httpEntity = prepareHTTPEntity(module);
                 ResponseEntity<String> resp = restTemplate.postForEntity(cockpitHostname + aicAPI, httpEntity,
                         String.class);
-                response =  resp.getBody();
+                response = resp.getBody();
             } else {
                 ResponseEntity<String> resp = restTemplate.postForEntity(cockpitHostname + aicAPI, module,
                         String.class);
-                response =  resp.getBody();
+                response = resp.getBody();
             }
             log.info(response);
         } catch (Exception ex) {
@@ -81,7 +82,7 @@ public class ModuleSynchronizationService {
         try {
             log.debug("Loading existing modules from cockpit: " + cockpitHostname + aicAPI);
             ResponseEntity<Module[]> resp;
-            if(authEnabled) {
+            if (authEnabled) {
                 HttpEntity<String> httpEntity = prepareHTTPEntity("");
                 resp = restTemplate.exchange(cockpitHostname + aicAPI, HttpMethod.GET, httpEntity, Module[].class);
             } else {
@@ -99,17 +100,17 @@ public class ModuleSynchronizationService {
         try {
             log.info("Checking if module already exist: " + cockpitHostname + moduleAPI);
             var uri = UriComponentsBuilder.fromUriString(cockpitHostname + moduleAPI + "/byname/{name}")
-                .buildAndExpand(name)
-                .toUri();
+                    .buildAndExpand(name)
+                    .toUri();
             log.debug("Check if module exists via uri " + uri.toString());
             ResponseEntity<Module> resp;
-            if(authEnabled) {
+            if (authEnabled) {
                 HttpEntity<String> httpEntity = prepareHTTPEntity("");
                 resp = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, Module.class);
             } else {
                 resp = restTemplate.getForEntity(uri, Module.class);
             }
-            
+
             log.info("Result of existence test " + resp.getStatusCode().toString());
             if (resp.getStatusCode().is2xxSuccessful()) {
                 return true;
@@ -123,8 +124,7 @@ public class ModuleSynchronizationService {
                 return false;
             }
             return true;
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             log.error("Failed to test if module exists: " + ex.getMessage());
             return true;
         }
@@ -132,25 +132,25 @@ public class ModuleSynchronizationService {
 
     private <T> HttpEntity<T> prepareHTTPEntity(T entity) {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization","Bearer " + authService.getToken());
+        headers.set("Authorization", "Bearer " + authService.getToken());
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<T> httpEntity = new HttpEntity<>(entity, headers);
         return httpEntity;
     }
 
-    public ValidationFeedback validateModuleData(Module module) {
-        ValidationFeedback feedback = new ValidationFeedback();
+    public ValidationDto validateModuleData(Module module) {
+        ValidationDto feedback = new ValidationDto();
         feedback.setValid(true);
 
         for (String sbom : module.getsBOMLocation().keySet()) {
             try {
-                if(module.getsBOMLocation().get(sbom) == null) {
+                if (module.getsBOMLocation().get(sbom) == null) {
                     feedback.getInvalidUris().add(sbom);
                     feedback.setValid(false);
                     continue;
                 }
                 URL sbomLocation = new URI(module.getsBOMLocation().get(sbom).getUrl()).toURL();
-                if( !checksURLAvailability(sbomLocation)) {
+                if (!checksURLAvailability(sbomLocation)) {
                     feedback.getUnreachableUris().add(sbomLocation);
                     feedback.setValid(false);
                 }
@@ -161,25 +161,25 @@ public class ModuleSynchronizationService {
             }
         }
 
-        if(module.getUseAI()) {
+        if (module.getUseAI()) {
             feedback.setHasIncompleteModelData(false);
-            if(module.getModel() == null || module.getModel().getModelLink() == null) {
+            if (module.getModel() == null || module.getModel().getModelLink() == null) {
                 log.debug("No model data for module {}", module.getName());
                 feedback.setValid(false);
-            } 
+            }
 
-            if(module.getModel().getModelLink() == null) {
+            if (module.getModel().getModelLink() == null) {
                 log.debug("No model link for module {}", module.getName());
                 feedback.setHasIncompleteModelData(true);
             } else {
                 try {
                     URL modelLink = module.getModel().getModelLink().toURL();
-                    if(!checksURLAvailability(modelLink)) {
+                    if (!checksURLAvailability(modelLink)) {
                         feedback.getUnreachableUris().add(modelLink);
                         feedback.setHasIncompleteModelData(true);
                     }
                     URL trainingDataLink = module.getModel().getModelLink().toURL();
-                    if(module.getModel().getPublicTrainingData() && !checksURLAvailability(trainingDataLink)) {
+                    if (module.getModel().getPublicTrainingData() && !checksURLAvailability(trainingDataLink)) {
                         feedback.getUnreachableUris().add(trainingDataLink);
                         feedback.setHasIncompleteModelData(true);
                     }
@@ -187,18 +187,18 @@ public class ModuleSynchronizationService {
                     log.info("Invalid model link for module {}", module.getName());
                     feedback.setHasIncompleteModelData(true);
                     feedback.getInvalidUris().add(module.getModel().getModelLink().toString());
-                }              
+                }
             }
         }
 
-        //check if successor/relations work
+        // check if successor/relations work
         return feedback;
     }
 
     private boolean checksURLAvailability(URL url) {
         try {
             HttpURLConnection huc = (HttpURLConnection) url.openConnection();
-            if(huc.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            if (huc.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 return true;
             }
         } catch (IOException e) {
@@ -206,5 +206,5 @@ public class ModuleSynchronizationService {
             return false;
         }
         return false;
-    }    
+    }
 }

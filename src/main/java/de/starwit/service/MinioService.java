@@ -1,4 +1,4 @@
-package de.starwit.services;
+package de.starwit.service;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;

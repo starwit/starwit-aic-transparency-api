@@ -1,4 +1,4 @@
-package de.starwit.services;
+package de.starwit.service;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -20,6 +20,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import de.starwit.dto.AuthTokenResponseDto;
+
 @Service
 public class AuthService {
 
@@ -33,17 +35,17 @@ public class AuthService {
 
     @Value("${cockpit.auth.password}")
     private String password;
-    
+
     @Value("${cockpit.auth.url}")
     private String authUrl;
 
     private LocalDateTime tokenTimeStamp;
-    
+
     private String token = null;
 
     @Autowired
     private RestTemplate restTemplate;
-    
+
     @Autowired
     private ObjectMapper mapper;
 
@@ -51,12 +53,12 @@ public class AuthService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-        MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
         map.add("realm", "default");
         map.add("client_id", clientId);
-        map.add("grant_type", "password"); 
+        map.add("grant_type", "password");
         map.add("username", username);
-        map.add("password", password);        
+        map.add("password", password);
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
         HttpEntity<String> response;
@@ -70,7 +72,7 @@ public class AuthService {
 
         mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         try {
-            AuthTokenResponse authResponse = mapper.readValue(response.getBody(), AuthTokenResponse.class);
+            AuthTokenResponseDto authResponse = mapper.readValue(response.getBody(), AuthTokenResponseDto.class);
             token = authResponse.getAccessToken();
             tokenTimeStamp = LocalDateTime.now();
             log.debug("Token succesfully loaded");
@@ -80,14 +82,14 @@ public class AuthService {
     }
 
     private void checkIfTokenIsStillValid() {
-        if(token == null) {
+        if (token == null) {
             getAccessToken();
         } else {
             LocalDateTime now = LocalDateTime.now();
             long diff = ChronoUnit.MILLIS.between(tokenTimeStamp, now);
             log.debug("Token age " + diff);
             // token is too old, try again to aqcuire one
-            if(diff > 2590000) {
+            if (diff > 2590000) {
                 log.debug("Token too old, get a new one");
                 getAccessToken();
             }
@@ -97,5 +99,5 @@ public class AuthService {
     public String getToken() {
         checkIfTokenIsStillValid();
         return token;
-    }    
+    }
 }

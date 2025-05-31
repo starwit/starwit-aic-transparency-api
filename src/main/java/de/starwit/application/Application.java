@@ -1,4 +1,4 @@
-package org.openapitools;
+package de.starwit.application;
 
 import com.fasterxml.jackson.databind.Module;
 import org.openapitools.jackson.nullable.JsonNullableModule;
@@ -11,18 +11,13 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootApplication(
-    nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
-)
-@ComponentScan(
-    basePackages = {"org.openapitools", "de.starwit" , "org.openapitools.configuration"},
-    nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
-)
+@SpringBootApplication(nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class)
+@ComponentScan(basePackages = { "de.starwit" }, nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class)
 @EnableAsync
-public class OpenApiGeneratorApplication {
+public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(OpenApiGeneratorApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
     @Bean(name = "org.openapitools.OpenApiGeneratorApplication.jsonNullableModule")
@@ -38,6 +33,6 @@ public class OpenApiGeneratorApplication {
 
         restTemplate.setRequestFactory(requestFactory);
         return restTemplate;
-    }    
+    }
 
 }

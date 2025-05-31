@@ -1,4 +1,4 @@
-package de.starwit;
+package de.starwit.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,23 +16,23 @@ import org.springframework.web.context.request.NativeWebRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.starwit.aic.model.Module;
-import de.starwit.services.ModuleSynchronizationService;
-import de.starwit.services.ReportGenerationService;
-import de.starwit.services.ValidationFeedback;
+import de.starwit.dto.ValidationDto;
+import de.starwit.service.CockpitService;
+import de.starwit.service.ReportGenerationService;
 import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-08-08T11:21:46.515327837+02:00[Europe/Berlin]")
 @Controller
 @RequestMapping("${openapi.aICockpitTransparency.base-path:/v0}")
-public class ModulesApiController implements ModulesApi {
+public class ModuleController implements ModuleControllerInterface {
 
-    Logger log = LoggerFactory.getLogger(ModulesApiController.class);
+    Logger log = LoggerFactory.getLogger(ModuleController.class);
 
     private final NativeWebRequest request;
 
     @Autowired
-    private ModuleSynchronizationService moduleNotificationService;
+    private CockpitService moduleNotificationService;
 
     @Autowired
     ReportGenerationService reportService;
@@ -46,7 +46,7 @@ public class ModulesApiController implements ModulesApi {
     @Autowired
     ObjectMapper mapper;
 
-    public ModulesApiController(NativeWebRequest request) {
+    public ModuleController(NativeWebRequest request) {
         this.request = request;
     }
 
@@ -63,26 +63,25 @@ public class ModulesApiController implements ModulesApi {
     @Override
     public ResponseEntity<String> updateModule(Integer id, @Valid Module module) {
         log.info("Updating module {}", id);
-        return ModulesApi.super.updateModule(id, module);
+        return ModuleControllerInterface.super.updateModule(id, module);
     }
 
     @Override
-    public ResponseEntity<ValidationFeedback> registerModule(@Valid Module module) {
+    public ResponseEntity<ValidationDto> registerModule(@Valid Module module) {
         log.info("Registering new module");
         var moduleExist = moduleNotificationService.checkIfModuleExists(module.getName());
         if (moduleExist) {
             log.info("Module with name {} already exists", module.getName());
-            ValidationFeedback validation = new ValidationFeedback();
+            ValidationDto validation = new ValidationDto();
             validation.setNameTaken(true);
             return new ResponseEntity<>(validation, HttpStatus.CONFLICT);
         } else {
             log.info("Registering module {}", module.getName());
             var validation = moduleNotificationService.validateModuleData(module);
-            if(validation.isValid())
-            {
-                moduleNotificationService.synchModuleData(module);
+            if (validation.isValid()) {
+                moduleNotificationService.sendModuleDataToCockpit(module);
                 reportService.createReports(module);
-                return new ResponseEntity<>(validation, HttpStatus.OK);            
+                return new ResponseEntity<>(validation, HttpStatus.OK);
             }
             return new ResponseEntity<>(validation, HttpStatus.BAD_REQUEST);
         }
