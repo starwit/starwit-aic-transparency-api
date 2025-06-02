@@ -86,7 +86,7 @@ services:
     ports:
     - '1080:80'
     volumes:
-    - ./sbom-examples:/usr/local/apache2/htdocs
+    - ./static-content:/usr/local/apache2/htdocs
 
   sbom-generator:
     image: starwitorg/sbom-generator:0.0.10
