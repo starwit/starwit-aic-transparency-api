@@ -69,7 +69,7 @@ services:
       "  
 
   ai-cockpit:
-    image: starwitorg/ai-cockpit:1.0.7
+    image: starwitorg/ai-cockpit:1.0.9
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ai-cockpit
