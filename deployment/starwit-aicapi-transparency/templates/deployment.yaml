@@ -70,7 +70,10 @@ spec:
               value: "true"
             - name: SCENARIO_IMPORTFOLDER
               value: /scenariodata/data_structures/{{ .Values.sampledata.importFolder }}-{{ .Values.sampledata.language }}
-            {{- end }}                       
+            {{- else }}
+            - name: SCENARIO_SETUP
+              value: "false"
+            {{- end }}                      
             {{- if .Values.auth.enabled }}
             - name: COCKPIT_AUTH_URL
               value: {{ .Values.auth.auth_url }}
@@ -98,11 +101,11 @@ spec:
           {{- end }}              
           livenessProbe:
             httpGet:
-              path: {{ .Values.app.context_path }}
+              path: {{ .Values.app.context_path }}/monitoring/health
               port: http
           readinessProbe:
             httpGet:
-              path: {{ .Values.app.context_path }}
+              path: {{ .Values.app.context_path }}/monitoring/health
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
