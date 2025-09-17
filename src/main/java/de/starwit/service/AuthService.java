@@ -75,7 +75,7 @@ public class AuthService {
             AuthTokenResponseDto authResponse = mapper.readValue(response.getBody(), AuthTokenResponseDto.class);
             token = authResponse.getAccessToken();
             tokenTimeStamp = LocalDateTime.now();
-            log.debug("Token succesfully loaded");
+            log.info("Access token succesfully loaded");
         } catch (JsonProcessingException e) {
             log.error("Can't parse auth response " + e.getMessage());
         }

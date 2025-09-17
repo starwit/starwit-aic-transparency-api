@@ -75,6 +75,8 @@ spec:
               value: "false"
             {{- end }}                      
             {{- if .Values.auth.enabled }}
+            - name: COCKPIT_AUTH_ENABLED
+              value: "true"
             - name: COCKPIT_AUTH_URL
               value: {{ .Values.auth.auth_url }}
             - name: COCKPIT_AUTH_CLIENT_ID

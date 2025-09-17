@@ -1,4 +1,18 @@
+# Developer Documentation
 
+## Dev setup with authentication
+
+Get access token:
+```bash
+curl -H application/x-www-form-urlencoded -d "realm=default" -d "client_id=client_id" -d "username=username" -d "password=PASSWORD" -d "grant_type=password" "https://hostname/auth/realms/default/protocol/openid-connect/token"
+```
+
+Access API
+```bash
+curl --location 'https://hostname/api/modules/' -H 'Authorization: Bearer TOKEN'
+```
+
+## Sample Data
 
 ```json
 {
