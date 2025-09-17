@@ -4,7 +4,7 @@
     <artifactId>starwit-aicapi-transparency</artifactId>
     <packaging>jar</packaging>
     <name>Starwit AIC Transparency API</name>
-    <version>1.0.9-SNAPSHOT</version>
+    <version>1.0.9</version>
     <description>Starwit's implementation of AI Cockpit's transparency API</description>
     <url>http://starwit.de</url>
 
@@ -18,7 +18,7 @@
 
     <scm>
         <connection>scm:git:https://github.com/starwit/starwit-aic-transparency-api.git</connection>
-        <tag>0.0.1</tag>
+        <tag>1.0.9</tag>
     </scm>
 
     <parent>
