@@ -35,7 +35,7 @@ public class InitializationService {
     @Value("${scenario.setup:false}")
     private boolean setupScenario = true;
 
-    @Value("${scenario.import.location:import-data/modules.json}")
+    @Value("${scenario.importLocation:import-data/moduledata.json}")
     private String scenarioImportLocation;
 
     @Autowired
