@@ -69,7 +69,7 @@ spec:
             - name: SCENARIO_SETUP
               value: "true"
             - name: SCENARIO_IMPORTFOLDER
-              value: /scenariodata/data_structures/{{ .Values.sampledata.importFolder }}-{{ .Values.sampledata.language }}
+              value: /scenariodata/data_structures/{{ .Values.sampledata.importFolder }}-{{ .Values.sampledata.language }}/moduledata.json
             {{- else }}
             - name: SCENARIO_SETUP
               value: "false"

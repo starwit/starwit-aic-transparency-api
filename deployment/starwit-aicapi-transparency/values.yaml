@@ -28,7 +28,6 @@ auth:
   username: apiuser
   password: apiuser
 
-
 sampledata:
   enabled: false
   image: starwitorg/ai-cockpit-sampledata:latest
