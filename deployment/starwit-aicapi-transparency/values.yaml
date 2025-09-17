@@ -15,6 +15,12 @@ app:
     moduleapi: "api/module"
     aicapi: "api/aic/modules"
 
+  minio:
+    endpoint: http://localhost:9000
+    username: minioadmin
+    password: minioadmin
+    bucket: sboms
+
 auth:
   enabled: false
   auth_url: https://hostname/realms/aicockpit/protocol/openid-connect/token

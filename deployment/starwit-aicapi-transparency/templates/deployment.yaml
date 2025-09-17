@@ -57,6 +57,14 @@ spec:
               value: {{ .Values.app.cockpit.moduleapi }}
             - name: COCKPIT_AICAPI
               value: {{ .Values.app.cockpit.aicapi }}
+            - name: MINIO_ENDPOINT
+              value: {{ .Values.app.minio.endpoint }}
+            - name: MINIO_USERNAME
+              value: {{ .Values.app.minio.username }}
+            - name: MINIO_PASSWORD
+              value: {{ .Values.app.minio.password }}
+            - name: MINIO_BUCKET
+              value: {{ .Values.app.minio.bucket }}
             {{- if .Values.sampledata.enabled }}
             - name: SCENARIO_SETUP
               value: "true"
