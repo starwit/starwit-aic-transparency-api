@@ -70,7 +70,10 @@ spec:
               value: "true"
             - name: SCENARIO_IMPORTFOLDER
               value: /scenariodata/data_structures/{{ .Values.sampledata.importFolder }}-{{ .Values.sampledata.language }}
-            {{- end }}                       
+            {{- else }}
+            - name: SCENARIO_SETUP
+              value: "false"
+            {{- end }}                      
             {{- if .Values.auth.enabled }}
             - name: COCKPIT_AUTH_URL
               value: {{ .Values.auth.auth_url }}
