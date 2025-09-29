@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jre-jammy
+FROM eclipse-temurin:25-jre-jammy
 # copy application JAR (with libraries inside)
 
 COPY target/starwit-*.jar /opt/application.jar
